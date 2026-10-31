@@ -1,0 +1,28 @@
+<unknown>:2: SyntaxWarning: invalid escape sequence '\ '
+<unknown>:4: SyntaxWarning: invalid escape sequence '\s'
+<unknown>:4: SyntaxWarning: invalid escape sequence '\d'
+<unknown>:8: SyntaxWarning: invalid escape sequence '\w'
+<unknown>:8: SyntaxWarning: invalid escape sequence '\w'
+<unknown>:8: SyntaxWarning: invalid escape sequence '\d'
+<unknown>:3: SyntaxWarning: invalid escape sequence '\d'
+<unknown>:7: SyntaxWarning: invalid escape sequence '\d'
+<unknown>:7: SyntaxWarning: invalid escape sequence '\d'
+<unknown>:7: SyntaxWarning: invalid escape sequence '\d'
+<unknown>:7: SyntaxWarning: invalid escape sequence '\d'
+<unknown>:4: SyntaxWarning: invalid escape sequence '\d'
+<unknown>:5: SyntaxWarning: invalid escape sequence '\w'
+<unknown>:6: SyntaxWarning: invalid escape sequence '\w'
+<unknown>:6: SyntaxWarning: invalid escape sequence '\-'
+<unknown>:4: SyntaxWarning: invalid escape sequence '\d'
+<unknown>:8: SyntaxWarning: invalid escape sequence '\w'
+<unknown>:14: SyntaxWarning: invalid escape sequence '\E'
+<unknown>:3: SyntaxWarning: invalid escape sequence '\w'
+<unknown>:3: SyntaxWarning: invalid escape sequence '\w'
+<unknown>:8: SyntaxWarning: invalid escape sequence '\w'
+<unknown>:4: SyntaxWarning: invalid escape sequence '\w'
+<unknown>:4: SyntaxWarning: invalid escape sequence '\ '
+<unknown>:5: SyntaxWarning: invalid decimal literal
+llama3.2-1b: executing 5240 unique programs (6004 cached)
+Could not reach the Hub (Cannot reach https://huggingface.co/api/models/sentence-transformers/all-mpnet-base-v2: offline mode is enabled. To disable it, please unset the `HF_HUB_OFFLINE` environment variable.). Using cached commit hash for 'sentence-transformers/all-mpnet-base-v2'.
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 9694.38it/s]
+llama3.2-1b: scored 23124 samples, 6204 groups

@@ -1,0 +1,18 @@
+<unknown>:6: SyntaxWarning: invalid escape sequence '\('
+<unknown>:11: SyntaxWarning: invalid escape sequence '\]'
+<unknown>:4: SyntaxWarning: invalid escape sequence '\)'
+<unknown>:13: SyntaxWarning: invalid escape sequence '\T'
+<unknown>:15: SyntaxWarning: invalid escape sequence '\$'
+<unknown>:4: SyntaxWarning: invalid escape sequence '\.'
+<unknown>:4: SyntaxWarning: invalid escape sequence '\.'
+<unknown>:3: SyntaxWarning: invalid escape sequence '\c'
+<unknown>:19: SyntaxWarning: invalid escape sequence '\>'
+<unknown>:32: SyntaxWarning: invalid escape sequence '\/'
+<unknown>:19: SyntaxWarning: invalid escape sequence '\.'
+<unknown>:18: SyntaxWarning: invalid escape sequence '\g'
+<unknown>:6: SyntaxWarning: invalid escape sequence '\o'
+<unknown>:8: SyntaxWarning: invalid escape sequence '\ '
+qwen2.5-0.5b-seed2: executing 5572 unique programs (30564 cached)
+Could not reach the Hub (Cannot reach https://huggingface.co/api/models/sentence-transformers/all-mpnet-base-v2: offline mode is enabled. To disable it, please unset the `HF_HUB_OFFLINE` environment variable.). Using cached commit hash for 'sentence-transformers/all-mpnet-base-v2'.
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 6692.86it/s]
+qwen2.5-0.5b-seed2: scored 23124 samples, 6204 groups

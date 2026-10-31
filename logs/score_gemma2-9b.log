@@ -1,0 +1,12 @@
+<unknown>:12: SyntaxWarning: invalid decimal literal
+<unknown>:18: SyntaxWarning: invalid escape sequence '\}'
+<unknown>:15: SyntaxWarning: invalid escape sequence '\ '
+<unknown>:2: SyntaxWarning: invalid escape sequence '\{'
+<unknown>:11: SyntaxWarning: invalid escape sequence '\E'
+<unknown>:22: SyntaxWarning: invalid decimal literal
+<unknown>:2: SyntaxWarning: invalid escape sequence '\)'
+<unknown>:2: SyntaxWarning: invalid escape sequence '\k'
+gemma2-9b: executing 3597 unique programs (46806 cached)
+Could not reach the Hub (Cannot reach https://huggingface.co/api/models/sentence-transformers/all-mpnet-base-v2: offline mode is enabled. To disable it, please unset the `HF_HUB_OFFLINE` environment variable.). Using cached commit hash for 'sentence-transformers/all-mpnet-base-v2'.
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 5772.04it/s]
+gemma2-9b: scored 23124 samples, 6204 groups

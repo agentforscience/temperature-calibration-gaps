@@ -1,0 +1,36 @@
+\section{Methodology}
+\label{sec:method}
+
+\para{Problem formulation.}
+Given logits $z_i$ for the next token, temperature sampling draws token $i$ with probability
+\begin{equation}
+p_i(T) = \frac{\exp(z_i / T)}{\sum_j \exp(z_j / T)},
+\end{equation}
+and $T = 0$ denotes greedy decoding. For a model $m$ and a quality curve $q_m(T)$, we define the useful range as the temperatures that keep quality near the model's own peak:
+\begin{equation}
+\mathcal{U}_m = \{\, T : q_m(T) \ge 0.9 \max_{T'} q_m(T') \,\},
+\end{equation}
+with linear interpolation between grid points. \Tlo and \Tu are its lower and upper bounds, and \Tfifty is where quality falls to 50\% of peak. We choose a relative threshold because models differ widely in absolute quality. This choice means that \Tu says how far a model can go without losing much of what it has, not how good it is. For example, Qwen2.5-0.5B peaks at a coherent rate of only 0.85.
+
+\para{Hypotheses.}
+We split the claim into five sub-hypotheses. {\bf H1 (open-ended):} diversity gain is much smaller above $T = 1.2$, while coherence at $T \ge 1.4$ is 20--40\% below peak. {\bf H2 (factual QA):} accuracy above 0.7 falls, with little gain in coverage. {\bf H3 (code):} the useful range is about 0.2--0.6, with a sharp collapse above 0.8. {\bf H4 (size):} \Tu grows with model size. {\bf H5 (family):} curves differ across families at matched size.
+
+\para{Models.}
+\Tabref{tab:models} lists the models. No API key was available, so all subjects are open-weight checkpoints that we run locally with vLLM 0.32 on shared NVIDIA RTX A6000 GPUs. We did not test GPT, Claude, or Gemini. All runs use pure temperature sampling: \texttt{top\_p=1}, \texttt{top\_k} off, \texttt{min\_p=0}, \texttt{repetition\_penalty=1}, and \texttt{generation\_config="vllm"} so that checkpoint defaults do not apply.
+
+\input{tables/models}
+
+\para{Design.}
+We use temperatures $\{0, 0.2, 0.4, 0.6, 0.7, 0.8, 1.0, 1.2, 1.4, 1.6, 2.0\}$, with 4 samples per (prompt, $T$) and 1 at the deterministic $T = 0$. This gives 23,124 samples per run and about 277,000 across 12 runs, and all runs completed all 6,204 (prompt, $T$) cells.
+
+\para{Datasets.}
+We use three tasks, each with one prompt template. {\bf Stories:} 100 \writingprompts \citep{fan2018hierarchical} test prompts, up to 256 tokens. {\bf Factual QA:} 300 closed-book \triviaqa \citep{joshi2017triviaqa} validation questions, up to 24 tokens. {\bf Code:} all 164 \humaneval \citep{chen2021codex} problems, up to 448 tokens, run against the official tests in a resource-limited subprocess.
+
+\para{Metrics.}
+For stories, diversity is the mean pairwise cosine distance of \texttt{all-mpnet-base-v2} embeddings across samples for a prompt (semantic diversity), plus distinct-2 over pooled samples. Quality comes from a Qwen3-8B judge that scores coherence from 1 to 9 as a probability-weighted digit, on 2 of 4 samples. We call the share of stories scoring at least 5 the coherent rate, and we also track lexical validity. All 25,200 judgments passed our logprob validity checks. For QA, we measure per-sample accuracy by normalized alias match, \coverfour (any of 4 samples correct), and distinct answers. For code, we measure \passone, \passfour, syntax validity, and distinct programs by AST. Quality for \Tu is the coherent rate for stories, accuracy for QA, and \passone for code. Greedy decoding and the conventional $T = 0.7$ and $T = 1.0$ settings serve as baselines, and each model is compared with its own peak.
+
+\para{Statistics.}
+We use an item-level bootstrap with 2,000 resamples for 95\% confidence intervals (CIs) and paired sign-flip permutation tests with 10,000 permutations and Holm correction \citep{holm1979simple}. Holm correction runs over all 12 runs including controls. For size trends, we report Spearman correlations and bootstrap contrasts between the smallest and largest model of each ladder. The plateau test is the ratio of the diversity slope over $[1.2, 2.0]$ to the slope over $[0.2, 1.2]$. For family comparisons, the shape gap is the mean absolute difference between two curves, each normalized by its own maximum. We compare it with two measured floors: a seed replicate and a bf16-versus-AWQ control.
+
+\para{Changes from the plan.}
+Several analysis choices came after seeing partial data, and we report them so readers can weigh the results. Shared-GPU memory moved the 14B and 3B models to AWQ, so precision co-varies with size in both ladders (bf16 at 1.5B and below, AWQ at 3B and above). We chose the coherent rate over the raw judge score for story \Tu after seeing Qwen2.5-0.5B and Llama-1B results, because the judge rarely scores below 3. We edited the judge rubric once after inspecting five samples, before any scored run. We added the seed replicate, Holm correction, and ladder contrasts after the initial plan.

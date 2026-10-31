@@ -1,0 +1,14 @@
+\begin{table}[t]
+    \centering
+    \begin{tabular}{@{}lccc@{}}
+        \toprule
+        \textbf{Task} & \textbf{Qwen 0.5B$\to$14B $\Delta$\Tu} & \textbf{Llama 1B$\to$8B $\Delta$\Tu} & \textbf{Spearman $\rho$, 10 models ($p$)} \\
+        \midrule
+        Stories & +0.47 (0.43, 0.55) & $-$0.05 ($-$0.09, 0.00) & 0.61 (.060) \\
+        QA & +0.87 (0.76, 1.11) & +0.27 (0.04, 0.48) & 0.90 ($<$.001) \\
+        Code & +0.57 (0.00, 0.93) & +0.25 ($-$0.15, 0.59) & 0.64 (.048) \\
+        \bottomrule
+    \end{tabular}
+    \caption{Size effects on \Tu, with 95\% CIs for the ladder contrasts. The Qwen ladder gains range on every task, though the code CI barely clears zero. The Llama ladder gains on QA only.}
+    \label{tab:size}
+\end{table}

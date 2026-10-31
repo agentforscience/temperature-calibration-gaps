@@ -1,0 +1,6 @@
+\section{Conclusion}
+\label{sec:conclusion}
+
+We measured diversity and quality on one grid of 10 open-weight models, 11 temperatures, and three tasks. Quality stays nearly flat and then falls at a model-specific point, with story \Tu ranging from 0.84 to 1.31. Code has no sharp collapse just above 0.8, factual accuracy loses only a few points above 0.7 with no coverage gain, and the useful range grows with size in Qwen but mostly not in Llama. The main takeaway is that there is no universal temperature: the useful range is a property of the model, not of the setting.
+
+Future work should measure logit scale and top-token margin to test whether they predict the cliff location, add more checkpoints per family to separate family from checkpoint, and run hosted frontier models through the same grid. Sampling at steps of 0.05 around each cliff would test how abrupt it really is, and a diversity measure that does not collapse on degenerate text, together with human coherence ratings, would remove the two largest measurement limits.

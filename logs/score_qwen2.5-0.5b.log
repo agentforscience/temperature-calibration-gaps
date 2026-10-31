@@ -1,0 +1,106 @@
+<unknown>:14: SyntaxWarning: invalid escape sequence '\s'
+<unknown>:11: SyntaxWarning: invalid escape sequence '\$'
+<unknown>:4: SyntaxWarning: invalid escape sequence '\)'
+<unknown>:9: SyntaxWarning: invalid escape sequence '\ '
+<unknown>:8: SyntaxWarning: invalid escape sequence '\-'
+<unknown>:2: SyntaxWarning: invalid escape sequence '\d'
+<unknown>:4: SyntaxWarning: invalid escape sequence '\['
+<unknown>:37: SyntaxWarning: invalid escape sequence '\*'
+<unknown>:28: SyntaxWarning: invalid escape sequence '\d'
+<unknown>:4: SyntaxWarning: invalid escape sequence '\ '
+<unknown>:5: SyntaxWarning: invalid escape sequence '\u'
+<unknown>:6: SyntaxWarning: invalid escape sequence '\u'
+<unknown>:11: SyntaxWarning: invalid escape sequence '\-'
+<unknown>:5: SyntaxWarning: invalid escape sequence '\d'
+<unknown>:5: SyntaxWarning: invalid escape sequence '\ '
+<unknown>:3: SyntaxWarning: invalid escape sequence '\A'
+qwen2.5-0.5b: executing 6004 unique programs (0 cached)
+Could not reach the Hub (Cannot reach https://huggingface.co/api/models/sentence-transformers/all-mpnet-base-v2: offline mode is enabled. To disable it, please unset the `HF_HUB_OFFLINE` environment variable.). Using cached commit hash for 'sentence-transformers/all-mpnet-base-v2'.
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 5700.26it/s]
+[W1030 13:34:45.816679953 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 905969664 bytes (free: 460259328, total: 50899386368).
+[W1030 13:34:45.823729834 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 905969664 bytes (free: 462356480, total: 50899386368).
+Traceback (most recent call last):
+  File "/data/summereunann/neurico-workspaces/temperature_calibration_gaps_20261030_120000_ab12cd34/src/score.py", line 234, in <module>
+    score_model(m)
+  File "/data/summereunann/neurico-workspaces/temperature_calibration_gaps_20261030_120000_ab12cd34/src/score.py", line 201, in score_model
+    embs = embed(df.text[st].tolist())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/summereunann/neurico-workspaces/temperature_calibration_gaps_20261030_120000_ab12cd34/src/score.py", line 151, in embed
+    return _EMB.encode(texts, batch_size=128, normalize_embeddings=True, show_progress_bar=False)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/summereunann/neurico-workspaces/temperature_calibration_gaps_20261030_120000_ab12cd34/.venv/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/data/summereunann/neurico-workspaces/temperature_calibration_gaps_20261030_120000_ab12cd34/.venv/lib/python3.12/site-packages/sentence_transformers/util/decorators.py", line 46, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/data/summereunann/neurico-workspaces/temperature_calibration_gaps_20261030_120000_ab12cd34/.venv/lib/python3.12/site-packages/sentence_transformers/sentence_transformer/model.py", line 895, in encode
+    all_embeddings = self._inference(inputs, device=device, **inference_kwargs)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/summereunann/neurico-workspaces/temperature_calibration_gaps_20261030_120000_ab12cd34/.venv/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/data/summereunann/neurico-workspaces/temperature_calibration_gaps_20261030_120000_ab12cd34/.venv/lib/python3.12/site-packages/sentence_transformers/sentence_transformer/model.py", line 963, in _inference
+    out_features = self(features, **kwargs)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/summereunann/neurico-workspaces/temperature_calibration_gaps_20261030_120000_ab12cd34/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1778, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/summereunann/neurico-workspaces/temperature_calibration_gaps_20261030_120000_ab12cd34/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1789, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/summereunann/neurico-workspaces/temperature_calibration_gaps_20261030_120000_ab12cd34/.venv/lib/python3.12/site-packages/sentence_transformers/base/model.py", line 600, in forward
+    input = module(input, **module_kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/summereunann/neurico-workspaces/temperature_calibration_gaps_20261030_120000_ab12cd34/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1778, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/summereunann/neurico-workspaces/temperature_calibration_gaps_20261030_120000_ab12cd34/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1789, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/summereunann/neurico-workspaces/temperature_calibration_gaps_20261030_120000_ab12cd34/.venv/lib/python3.12/site-packages/sentence_transformers/base/modules/transformer.py", line 1647, in forward
+    model_output = model_method(**filtered_kwargs)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/summereunann/neurico-workspaces/temperature_calibration_gaps_20261030_120000_ab12cd34/.venv/lib/python3.12/site-packages/transformers/models/mpnet/modeling_mpnet.py", line 420, in forward
+    encoder_outputs = self.encoder(
+                      ^^^^^^^^^^^^^
+  File "/data/summereunann/neurico-workspaces/temperature_calibration_gaps_20261030_120000_ab12cd34/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1778, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/summereunann/neurico-workspaces/temperature_calibration_gaps_20261030_120000_ab12cd34/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1789, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/summereunann/neurico-workspaces/temperature_calibration_gaps_20261030_120000_ab12cd34/.venv/lib/python3.12/site-packages/transformers/models/mpnet/modeling_mpnet.py", line 288, in forward
+    layer_outputs = layer_module(
+                    ^^^^^^^^^^^^^
+  File "/data/summereunann/neurico-workspaces/temperature_calibration_gaps_20261030_120000_ab12cd34/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1778, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/summereunann/neurico-workspaces/temperature_calibration_gaps_20261030_120000_ab12cd34/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1789, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/summereunann/neurico-workspaces/temperature_calibration_gaps_20261030_120000_ab12cd34/.venv/lib/python3.12/site-packages/transformers/models/mpnet/modeling_mpnet.py", line 249, in forward
+    self_attention_outputs = self.attention(
+                             ^^^^^^^^^^^^^^^
+  File "/data/summereunann/neurico-workspaces/temperature_calibration_gaps_20261030_120000_ab12cd34/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1778, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/summereunann/neurico-workspaces/temperature_calibration_gaps_20261030_120000_ab12cd34/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1789, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/summereunann/neurico-workspaces/temperature_calibration_gaps_20261030_120000_ab12cd34/.venv/lib/python3.12/site-packages/transformers/models/mpnet/modeling_mpnet.py", line 192, in forward
+    self_outputs = self.attn(
+                   ^^^^^^^^^^
+  File "/data/summereunann/neurico-workspaces/temperature_calibration_gaps_20261030_120000_ab12cd34/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1778, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/summereunann/neurico-workspaces/temperature_calibration_gaps_20261030_120000_ab12cd34/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1789, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/summereunann/neurico-workspaces/temperature_calibration_gaps_20261030_120000_ab12cd34/.venv/lib/python3.12/site-packages/transformers/models/mpnet/modeling_mpnet.py", line 150, in forward
+    attention_scores = torch.matmul(q, k.transpose(-1, -2))
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/summereunann/neurico-workspaces/temperature_calibration_gaps_20261030_120000_ab12cd34/.venv/lib/python3.12/site-packages/torch/_native/registry.py", line 925, in eager_router
+    return _fallback.call_boxed(keyset, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 864.00 MiB. GPU 0 has a total capacity of 47.40 GiB of which 440.94 MiB is free. Process 1426107 has 44.32 GiB memory in use. Including non-PyTorch memory, this process has 2.60 GiB memory in use. Of the allocated memory 2.18 GiB is allocated by PyTorch, and 116.40 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)

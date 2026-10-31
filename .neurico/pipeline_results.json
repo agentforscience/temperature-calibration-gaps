@@ -1,0 +1,18 @@
+{
+  "success": true,
+  "stages": {
+    "resource_finder": {
+      "success": true,
+      "skipped": true
+    },
+    "experiment_runner": {
+      "success": true,
+      "return_code": 0,
+      "elapsed_time": 14219.026468515396,
+      "log_file": "/data/summereunann/neurico-workspaces/temperature_calibration_gaps_20261030_120000_ab12cd34/logs/execution_claude.log",
+      "transcript_file": "/data/summereunann/neurico-workspaces/temperature_calibration_gaps_20261030_120000_ab12cd34/logs/execution_claude_transcript.jsonl",
+      "background_processes_terminated": false
+    }
+  },
+  "work_dir": "/data/summereunann/neurico-workspaces/temperature_calibration_gaps_20261030_120000_ab12cd34"
+}

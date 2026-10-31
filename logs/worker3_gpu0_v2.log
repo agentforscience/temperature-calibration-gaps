@@ -1,0 +1,245 @@
+14:04:09 took over 22.0 GB
+14:04:21 qwen2.5-7b: 0 done, 6204 to do, holding 22.0 GB
+(MainProcess pid=3195306) INFO 10-30 14:04:21 [api_utils.py:286] non-default args: {'seed': 42, 'max_model_len': 1536, 'enable_prefix_caching': True, 'gpu_memory_utilization': 0.13924050632911392, 'kv_cache_memory_bytes': 6442450944, 'max_num_batched_tokens': 4096, 'max_num_seqs': 256, 'disable_log_stats': True, 'enforce_eager': True, 'generation_config': 'vllm', 'model': '/data/transformers/hub/models--Qwen--Qwen2.5-7B-Instruct-AWQ/snapshots/b25037543e9394b818fdfca67ab2a00ecc7dd641'}
+(MainProcess pid=3195306) WARNING 10-30 14:04:21 [arg_utils.py:1945] The global random seed is set to 42. Since VLLM_ENABLE_V1_MULTIPROCESSING is set to False, this may affect the random state of the Python process that launched vLLM.
+(MainProcess pid=3195306) INFO 10-30 14:04:21 [model.py:733] Resolved architecture: Qwen2ForCausalLM
+(MainProcess pid=3195306) INFO 10-30 14:04:21 [model.py:2152] Using max model len 1536
+(MainProcess pid=3195306) INFO 10-30 14:04:22 [scheduler.py:307] Chunked prefill is enabled with max_num_batched_tokens=4096.
+(MainProcess pid=3195306) WARNING 10-30 14:04:22 [vllm.py:1703] Enforce eager set, disabling torch.compile, CUDAGraphs, and JIT kernel warmup. This is equivalent to setting -cc.mode=none -cc.cudagraph_mode=none and --kernel_config.enable_jit_warmup=False
+(MainProcess pid=3195306) WARNING 10-30 14:04:22 [vllm.py:1727] Inductor compilation was disabled by user settings, optimizations settings that are only active during inductor compilation will be ignored.
+(MainProcess pid=3195306) INFO 10-30 14:04:22 [kernel.py:467] Final IR op priority after setting platform defaults: IrOpPriorityConfig(rms_norm=['vllm_c', 'native'], fused_add_rms_norm=['vllm_c', 'native'], gelu_and_mul_sparse=['triton', 'native'])
+(MainProcess pid=3195306) INFO 10-30 14:04:22 [vllm.py:1929] Cudagraph is disabled under eager mode
+(MainProcess pid=3195306) INFO 10-30 14:04:22 [compilation.py:317] Enabled custom fusions: norm_quant, act_quant
+(MainProcess pid=3195306) INFO 10-30 14:04:26 [core.py:133] Initializing a V1 LLM engine (v0.32.0) with config: model='/data/transformers/hub/models--Qwen--Qwen2.5-7B-Instruct-AWQ/snapshots/b25037543e9394b818fdfca67ab2a00ecc7dd641', speculative_config=None, tokenizer='/data/transformers/hub/models--Qwen--Qwen2.5-7B-Instruct-AWQ/snapshots/b25037543e9394b818fdfca67ab2a00ecc7dd641', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, tokenizer_revision=None, trust_remote_code=False, dtype=torch.float16, max_seq_len=1536, download_dir=None, load_format=auto, tensor_parallel_size=1, pipeline_parallel_size=1, data_parallel_size=1, decode_context_parallel_size=1, dcp_comm_backend=ag_rs, disable_custom_all_reduce=False, quantization=auto_awq, quantization_config=None, enforce_eager=True, aux_output_config=AuxOutputConfig(enable_return_routed_experts=False, max_bytes=None), kv_cache_dtype=auto, device_config=cuda, structured_outputs_config=StructuredOutputsConfig(backend='auto', disable_any_whitespace=False, disable_additional_properties=False, reasoning_parser='', reasoning_parser_plugin='', enable_in_reasoning=False), observability_config=ObservabilityConfig(show_hidden_metrics_for_version=None, otlp_traces_endpoint=None, collect_detailed_traces=None, per_request_spec_decode_metrics='none', kv_cache_metrics=False, kv_cache_metrics_sample=0.01, custom_histogram_buckets=None, cudagraph_metrics=False, enable_layerwise_nvtx_tracing=False, enable_mfu_metrics=False, enable_mm_processor_stats=False, enable_logging_iteration_details=False, jit_monitor_mode='warn', jit_monitor_verbose=False), seed=42, served_model_name=/data/transformers/hub/models--Qwen--Qwen2.5-7B-Instruct-AWQ/snapshots/b25037543e9394b818fdfca67ab2a00ecc7dd641, enable_prefix_caching=True, enable_chunked_prefill=True, pooler_config=None, compilation_config={'mode': <CompilationMode.NONE: 0>, 'debug_dump_path': None, 'cache_dir': '', 'compile_cache_save_format': 'binary', 'backend': 'inductor', 'custom_ops': ['all'], 'ir_enable_torch_wrap': False, 'splitting_ops': [], 'compile_mm_encoder': False, 'cudagraph_mm_encoder': False, 'encoder_cudagraph_token_budgets': [], 'encoder_cudagraph_max_vision_items_per_batch': 0, 'encoder_cudagraph_max_frames_per_batch': None, 'cudagraph_decoder_replay': True, 'decoder_replay_cudagraph_capture_sizes': [], 'decoder_replay_trim_threshold': 768, 'compile_sizes': [], 'compile_ranges_endpoints': [4096], 'inductor_compile_config': {'enable_auto_functionalized_v2': False, 'combo_kernels': True, 'benchmark_combo_kernel': True}, 'inductor_passes': {}, 'cudagraph_mode': <CUDAGraphMode.NONE: 0>, 'cudagraph_num_of_warmups': 0, 'cudagraph_capture_sizes': [], 'cudagraph_copy_inputs': False, 'cudagraph_specialize_lora': True, 'use_inductor_graph_partition': False, 'pass_config': {'fuse_norm_quant': True, 'fuse_act_quant': True, 'fuse_attn_quant': False, 'fuse_allreduce_rms': False, 'enable_qk_norm_rope_fusion': False, 'fuse_rope_kvcache_cat_mla': False, 'fuse_act_padding': False, 'fuse_qk_norm_rope_kvcache': False}, 'max_cudagraph_capture_size': 0, 'dynamic_shapes_config': {'type': <DynamicShapesType.BACKED: 'backed'>, 'evaluate_guards': False, 'assume_32_bit_indexing': False}, 'local_cache_dir': None, 'fast_moe_cold_start': False, 'static_all_moe_layers': []}, kernel_config=KernelConfig(ir_op_priority=IrOpPriorityConfig(rms_norm=['vllm_c', 'native'], fused_add_rms_norm=['vllm_c', 'native'], gelu_and_mul_sparse=['triton', 'native']), enable_flashinfer_autotune=True, enable_rocm_segmented_attn_autotune=False, enable_cutedsl_warmup=True, enable_jit_warmup=False, moe_backend='auto', sparse_indexer_topk_backend='auto', linear_backend='auto', linear_backend_per_quant=None)
+(MainProcess pid=3195306) INFO 10-30 14:04:26 [parallel_state.py:1906] world_size=1 rank=0 local_rank=0 distributed_init_method=file:///tmp/vllm_dist_c9bcb5070af54ebe93c5d895819ae478 backend=nccl
+(MainProcess pid=3195306) INFO 10-30 14:04:27 [parallel_state.py:2350] rank 0 in world size 1 is assigned as DP rank 0, PP rank 0, PCP rank 0, TP rank 0, ETP rank 0, EP rank N/A, EPLB rank N/A
+(MainProcess pid=3195306) INFO 10-30 14:04:27 [gpu_worker.py:518] Using V2 Model Runner
+(MainProcess pid=3195306) INFO 10-30 14:04:28 [model_runner.py:392] Loading model from scratch...
+(MainProcess pid=3195306) INFO 10-30 14:04:28 [__init__.py:923] Using MarlinLinearKernel for mixed-precision linear
+(MainProcess pid=3195306) INFO 10-30 14:04:28 [auto_awq.py:451] Using MarlinLinearKernel for AutoAWQMarlinLinearMethod
+(MainProcess pid=3195306) INFO 10-30 14:04:29 [cuda.py:506] Using FLASH_ATTN attention backend out of potential backends: ['FLASH_ATTN', 'FLASHINFER', 'TRITON_ATTN', 'FLEX_ATTENTION'].
+(MainProcess pid=3195306) INFO 10-30 14:04:29 [flash_attn.py:1117] Using FlashAttention version 2
+[rank0]:[W1030 14:04:30.302974825 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 69206016 bytes (free: 31784960, total: 50899386368).
+[rank0]:[W1030 14:04:30.436736101 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 69206016 bytes (free: 61145088, total: 50899386368).
+[rank0]:[W1030 14:04:30.511694891 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 1090519040 bytes (free: 237305856, total: 50899386368).
+(MainProcess pid=3195306) INFO 10-30 14:04:30 [base_loader.py:82] Initializing model took 2.169481 seconds
+(MainProcess pid=3195306) INFO 10-30 14:04:30 [weight_utils.py:1108] Filesystem type for checkpoints: ZFS. Checkpoint size: 5.19 GiB. Available RAM: 101.88 GiB.
+(MainProcess pid=3195306) INFO 10-30 14:04:30 [weight_utils.py:1131] Auto-prefetch is disabled because the filesystem (ZFS) is not a recognized network FS (NFS/Lustre). If you want to force prefetching, start vLLM with --safetensors-load-strategy=prefetch.
+Loading safetensors checkpoint shards:   0% Completed | 0/2 [00:00<?, ?it/s]
+Loading safetensors checkpoint shards:  50% Completed | 1/2 [00:02<00:02,  2.60s/it]
+Loading safetensors checkpoint shards: 100% Completed | 2/2 [00:03<00:00,  1.66s/it]
+Loading safetensors checkpoint shards: 100% Completed | 2/2 [00:03<00:00,  1.80s/it]
+
+(MainProcess pid=3195306) INFO 10-30 14:04:34 [default_loader.py:501] Loading weights took 3.73 seconds
+[rank0]:[W1030 14:04:34.023171737 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 543162368 bytes (free: 42270720, total: 50899386368).
+[rank0]:[W1030 14:04:35.116922437 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 272629760 bytes (free: 231014400, total: 50899386368).
+(MainProcess pid=3195306) INFO 10-30 14:04:40 [model_runner.py:424] Model loading took 5.29 GiB memory and 12.825773 seconds
+(MainProcess pid=3195306) INFO 10-30 14:04:40 [topk_topp_sampler.py:96] FlashInfer top-p/top-k sampling disabled via VLLM_USE_FLASHINFER_SAMPLER=0.
+(MainProcess pid=3195306) INFO 10-30 14:04:40 [torch_utils.py:295] Reducing Torch threads from 16 to 1 for serving. Set OMP_NUM_THREADS in the external environment to override.
+(MainProcess pid=3195306) INFO 10-30 14:04:40 [utils.py:347] Using LBNHC KV cache layout.
+[rank0]:[W1030 14:04:40.883258658 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 310378496 bytes (free: 214237184, total: 50899386368).
+(MainProcess pid=3195306) INFO 10-30 14:04:44 [gpu_worker.py:669] Initial free memory 10.13 GiB, reserved 6.0 GiB memory for KV Cache as specified by kv_cache_memory_bytes config and skipped memory profiling. This does not respect the gpu_memory_utilization config. Only use kv_cache_memory_bytes config when you want manual control of KV cache memory size. If OOM'ed, check the difference of initial free memory between the current run and the previous run where kv_cache_memory_bytes is suggested and update it correspondingly.
+(MainProcess pid=3195306) INFO 10-30 14:04:44 [kv_cache_utils.py:2327] GPU KV cache size: 112,336 tokens, Maximum concurrency for 1,536 tokens per request: 73.14x
+(MainProcess pid=3195306) INFO 10-30 14:04:46 [core.py:402] init engine (profile, create kv cache, warmup model) took 5.87 s
+(MainProcess pid=3195306) INFO 10-30 14:04:47 [hf.py:648] Detected the chat template content format to be 'string'. You can set `--chat-template-content-format` to override this.
+14:05:09 qwen2.5-7b 600/6204 23s
+14:05:32 qwen2.5-7b 1200/6204 46s
+14:05:57 qwen2.5-7b 1800/6204 71s
+14:06:22 qwen2.5-7b 2400/6204 96s
+14:06:53 qwen2.5-7b 3000/6204 126s
+14:10:19 qwen2.5-7b 3600/6204 332s
+14:18:55 qwen2.5-7b 4200/6204 848s
+14:27:26 qwen2.5-7b 4800/6204 1360s
+14:37:21 qwen2.5-7b 5400/6204 1955s
+14:45:05 qwen2.5-7b 6000/6204 2419s
+14:47:29 qwen2.5-7b 6204/6204 2562s
+14:47:32 done qwen2.5-7b; holding 22.0 GB
+14:47:32 gemma2-9b: 0 done, 6204 to do, holding 22.0 GB
+(MainProcess pid=3195306) INFO 10-30 14:47:32 [arg_utils.py:916] HF_HUB_OFFLINE is True, replace model_id [hugging-quants/gemma-2-9b-it-AWQ-INT4] to model_path [/data/transformers/hub/models--hugging-quants--gemma-2-9b-it-AWQ-INT4/snapshots/6e62725da8e92309167814dad7aacc0ed8cb2484]
+(MainProcess pid=3195306) INFO 10-30 14:47:32 [api_utils.py:286] non-default args: {'seed': 42, 'max_model_len': 1536, 'enable_prefix_caching': True, 'gpu_memory_utilization': 0.15822784810126583, 'kv_cache_memory_bytes': 6442450944, 'max_num_batched_tokens': 4096, 'max_num_seqs': 256, 'disable_log_stats': True, 'enforce_eager': True, 'generation_config': 'vllm', 'model': '/data/transformers/hub/models--hugging-quants--gemma-2-9b-it-AWQ-INT4/snapshots/6e62725da8e92309167814dad7aacc0ed8cb2484'}
+(MainProcess pid=3195306) WARNING 10-30 14:47:32 [arg_utils.py:1945] The global random seed is set to 42. Since VLLM_ENABLE_V1_MULTIPROCESSING is set to False, this may affect the random state of the Python process that launched vLLM.
+(MainProcess pid=3195306) INFO 10-30 14:47:32 [model.py:733] Resolved architecture: Gemma2ForCausalLM
+(MainProcess pid=3195306) INFO 10-30 14:47:32 [model.py:2152] Using max model len 1536
+(MainProcess pid=3195306) INFO 10-30 14:47:32 [kernel.py:467] Final IR op priority after setting platform defaults: IrOpPriorityConfig(rms_norm=['vllm_c', 'native'], fused_add_rms_norm=['vllm_c', 'native'], gelu_and_mul_sparse=['triton', 'native'])
+(MainProcess pid=3195306) INFO 10-30 14:47:41 [core.py:133] Initializing a V1 LLM engine (v0.32.0) with config: model='/data/transformers/hub/models--hugging-quants--gemma-2-9b-it-AWQ-INT4/snapshots/6e62725da8e92309167814dad7aacc0ed8cb2484', speculative_config=None, tokenizer='/data/transformers/hub/models--hugging-quants--gemma-2-9b-it-AWQ-INT4/snapshots/6e62725da8e92309167814dad7aacc0ed8cb2484', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, tokenizer_revision=None, trust_remote_code=False, dtype=torch.bfloat16, max_seq_len=1536, download_dir=None, load_format=auto, tensor_parallel_size=1, pipeline_parallel_size=1, data_parallel_size=1, decode_context_parallel_size=1, dcp_comm_backend=ag_rs, disable_custom_all_reduce=False, quantization=auto_awq, quantization_config=None, enforce_eager=True, aux_output_config=AuxOutputConfig(enable_return_routed_experts=False, max_bytes=None), kv_cache_dtype=auto, device_config=cuda, structured_outputs_config=StructuredOutputsConfig(backend='auto', disable_any_whitespace=False, disable_additional_properties=False, reasoning_parser='', reasoning_parser_plugin='', enable_in_reasoning=False), observability_config=ObservabilityConfig(show_hidden_metrics_for_version=None, otlp_traces_endpoint=None, collect_detailed_traces=None, per_request_spec_decode_metrics='none', kv_cache_metrics=False, kv_cache_metrics_sample=0.01, custom_histogram_buckets=None, cudagraph_metrics=False, enable_layerwise_nvtx_tracing=False, enable_mfu_metrics=False, enable_mm_processor_stats=False, enable_logging_iteration_details=False, jit_monitor_mode='warn', jit_monitor_verbose=False), seed=42, served_model_name=/data/transformers/hub/models--hugging-quants--gemma-2-9b-it-AWQ-INT4/snapshots/6e62725da8e92309167814dad7aacc0ed8cb2484, enable_prefix_caching=True, enable_chunked_prefill=True, pooler_config=None, compilation_config={'mode': <CompilationMode.NONE: 0>, 'debug_dump_path': None, 'cache_dir': '', 'compile_cache_save_format': 'binary', 'backend': 'inductor', 'custom_ops': ['all'], 'ir_enable_torch_wrap': False, 'splitting_ops': [], 'compile_mm_encoder': False, 'cudagraph_mm_encoder': False, 'encoder_cudagraph_token_budgets': [], 'encoder_cudagraph_max_vision_items_per_batch': 0, 'encoder_cudagraph_max_frames_per_batch': None, 'cudagraph_decoder_replay': True, 'decoder_replay_cudagraph_capture_sizes': [], 'decoder_replay_trim_threshold': 768, 'compile_sizes': [], 'compile_ranges_endpoints': [4096], 'inductor_compile_config': {'enable_auto_functionalized_v2': False, 'combo_kernels': True, 'benchmark_combo_kernel': True}, 'inductor_passes': {}, 'cudagraph_mode': <CUDAGraphMode.NONE: 0>, 'cudagraph_num_of_warmups': 0, 'cudagraph_capture_sizes': [], 'cudagraph_copy_inputs': False, 'cudagraph_specialize_lora': True, 'use_inductor_graph_partition': False, 'pass_config': {'fuse_norm_quant': True, 'fuse_act_quant': True, 'fuse_attn_quant': False, 'fuse_allreduce_rms': False, 'enable_qk_norm_rope_fusion': False, 'fuse_rope_kvcache_cat_mla': False, 'fuse_act_padding': False, 'fuse_qk_norm_rope_kvcache': False}, 'max_cudagraph_capture_size': 0, 'dynamic_shapes_config': {'type': <DynamicShapesType.BACKED: 'backed'>, 'evaluate_guards': False, 'assume_32_bit_indexing': False}, 'local_cache_dir': None, 'fast_moe_cold_start': False, 'static_all_moe_layers': []}, kernel_config=KernelConfig(ir_op_priority=IrOpPriorityConfig(rms_norm=['vllm_c', 'native'], fused_add_rms_norm=['vllm_c', 'native'], gelu_and_mul_sparse=['triton', 'native']), enable_flashinfer_autotune=True, enable_rocm_segmented_attn_autotune=False, enable_cutedsl_warmup=True, enable_jit_warmup=False, moe_backend='auto', sparse_indexer_topk_backend='auto', linear_backend='auto', linear_backend_per_quant=None)
+(MainProcess pid=3195306) INFO 10-30 14:47:41 [parallel_state.py:1906] world_size=1 rank=0 local_rank=0 distributed_init_method=file:///tmp/vllm_dist_f184af42f59c4fe5af2f60c763b4087e backend=nccl
+[rank0]:[W1030 14:47:43.577030508 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 14680064 bytes (free: 16318464, total: 50899386368).
+[rank0]:[W1030 14:47:43.719998836 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 14680064 bytes (free: 7929856, total: 50899386368).
+[rank0]:[W1030 14:47:43.867397647 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 14680064 bytes (free: 18415616, total: 50899386368).
+[rank0]:[W1030 14:47:43.017455918 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 14680064 bytes (free: 10027008, total: 50899386368).
+[rank0]:[W1030 14:47:44.169097364 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 20971520 bytes (free: 5832704, total: 50899386368).
+(MainProcess pid=3195306) INFO 10-30 14:47:44 [base_loader.py:82] Initializing model took 1.250692 seconds
+(MainProcess pid=3195306) INFO 10-30 14:47:44 [weight_utils.py:1108] Filesystem type for checkpoints: ZFS. Checkpoint size: 5.74 GiB. Available RAM: 107.27 GiB.
+Loading safetensors checkpoint shards:   0% Completed | 0/2 [00:00<?, ?it/s]
+(MainProcess pid=3195306) WARNING 10-30 14:47:50 [utils.py:333] Attempted to load weight model.layers.0.mlp.down_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:47:51 [utils.py:333] Attempted to load weight model.layers.0.self_attn.o_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:47:51 [utils.py:333] Attempted to load weight model.layers.1.mlp.down_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:47:51 [utils.py:333] Attempted to load weight model.layers.1.self_attn.o_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:47:51 [utils.py:333] Attempted to load weight model.layers.10.mlp.down_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:47:52 [utils.py:333] Attempted to load weight model.layers.10.self_attn.o_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:47:52 [utils.py:333] Attempted to load weight model.layers.11.mlp.down_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:47:52 [utils.py:333] Attempted to load weight model.layers.11.self_attn.o_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:47:52 [utils.py:333] Attempted to load weight model.layers.12.mlp.down_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:47:52 [utils.py:333] Attempted to load weight model.layers.12.self_attn.o_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:47:53 [utils.py:333] Attempted to load weight model.layers.13.mlp.down_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:47:53 [utils.py:333] Attempted to load weight model.layers.13.self_attn.o_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:47:53 [utils.py:333] Attempted to load weight model.layers.14.mlp.down_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:47:53 [utils.py:333] Attempted to load weight model.layers.14.self_attn.o_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:47:53 [utils.py:333] Attempted to load weight model.layers.15.mlp.down_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:47:54 [utils.py:333] Attempted to load weight model.layers.15.self_attn.o_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:47:54 [utils.py:333] Attempted to load weight model.layers.16.mlp.down_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:47:54 [utils.py:333] Attempted to load weight model.layers.16.self_attn.o_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:47:54 [utils.py:333] Attempted to load weight model.layers.17.mlp.down_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:47:54 [utils.py:333] Attempted to load weight model.layers.17.self_attn.o_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:47:54 [utils.py:333] Attempted to load weight model.layers.18.mlp.down_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:47:55 [utils.py:333] Attempted to load weight model.layers.18.self_attn.o_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:47:55 [utils.py:333] Attempted to load weight model.layers.19.mlp.down_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:47:55 [utils.py:333] Attempted to load weight model.layers.19.self_attn.o_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:47:55 [utils.py:333] Attempted to load weight model.layers.2.mlp.down_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:47:55 [utils.py:333] Attempted to load weight model.layers.2.self_attn.o_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:47:56 [utils.py:333] Attempted to load weight model.layers.20.mlp.down_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:47:56 [utils.py:333] Attempted to load weight model.layers.20.self_attn.o_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:47:56 [utils.py:333] Attempted to load weight model.layers.21.mlp.down_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:47:56 [utils.py:333] Attempted to load weight model.layers.21.self_attn.o_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:47:56 [utils.py:333] Attempted to load weight model.layers.22.mlp.down_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:47:57 [utils.py:333] Attempted to load weight model.layers.22.self_attn.o_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:47:57 [utils.py:333] Attempted to load weight model.layers.23.mlp.down_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:47:57 [utils.py:333] Attempted to load weight model.layers.23.self_attn.o_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:47:57 [utils.py:333] Attempted to load weight model.layers.24.mlp.down_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:47:58 [utils.py:333] Attempted to load weight model.layers.24.self_attn.o_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:47:58 [utils.py:333] Attempted to load weight model.layers.25.mlp.down_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:47:58 [utils.py:333] Attempted to load weight model.layers.25.self_attn.o_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:47:58 [utils.py:333] Attempted to load weight model.layers.26.mlp.down_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:47:58 [utils.py:333] Attempted to load weight model.layers.26.self_attn.o_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:47:59 [utils.py:333] Attempted to load weight model.layers.27.mlp.down_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:47:59 [utils.py:333] Attempted to load weight model.layers.27.self_attn.o_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:47:59 [utils.py:333] Attempted to load weight model.layers.28.mlp.down_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:47:59 [utils.py:333] Attempted to load weight model.layers.28.self_attn.o_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:47:59 [utils.py:333] Attempted to load weight model.layers.29.mlp.down_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:48:00 [utils.py:333] Attempted to load weight model.layers.29.self_attn.o_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:48:00 [utils.py:333] Attempted to load weight model.layers.3.mlp.down_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:48:00 [utils.py:333] Attempted to load weight model.layers.3.self_attn.o_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:48:00 [utils.py:333] Attempted to load weight model.layers.30.self_attn.o_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:48:00 [utils.py:333] Attempted to load weight model.layers.4.mlp.down_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:48:01 [utils.py:333] Attempted to load weight model.layers.4.self_attn.o_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:48:01 [utils.py:333] Attempted to load weight model.layers.5.mlp.down_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:48:01 [utils.py:333] Attempted to load weight model.layers.5.self_attn.o_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:48:01 [utils.py:333] Attempted to load weight model.layers.6.mlp.down_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:48:01 [utils.py:333] Attempted to load weight model.layers.6.self_attn.o_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:48:02 [utils.py:333] Attempted to load weight model.layers.7.mlp.down_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:48:02 [utils.py:333] Attempted to load weight model.layers.7.self_attn.o_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:48:02 [utils.py:333] Attempted to load weight model.layers.8.mlp.down_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:48:02 [utils.py:333] Attempted to load weight model.layers.8.self_attn.o_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:48:02 [utils.py:333] Attempted to load weight model.layers.9.mlp.down_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:48:03 [utils.py:333] Attempted to load weight model.layers.9.self_attn.o_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+Loading safetensors checkpoint shards:  50% Completed | 1/2 [00:18<00:18, 19.00s/it]
+(MainProcess pid=3195306) WARNING 10-30 14:48:03 [utils.py:333] Attempted to load weight model.layers.30.mlp.down_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:48:03 [utils.py:333] Attempted to load weight model.layers.31.mlp.down_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:48:04 [utils.py:333] Attempted to load weight model.layers.31.self_attn.o_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:48:04 [utils.py:333] Attempted to load weight model.layers.32.mlp.down_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:48:04 [utils.py:333] Attempted to load weight model.layers.32.self_attn.o_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:48:04 [utils.py:333] Attempted to load weight model.layers.33.mlp.down_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:48:04 [utils.py:333] Attempted to load weight model.layers.33.self_attn.o_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:48:05 [utils.py:333] Attempted to load weight model.layers.34.mlp.down_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:48:05 [utils.py:333] Attempted to load weight model.layers.34.self_attn.o_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:48:05 [utils.py:333] Attempted to load weight model.layers.35.mlp.down_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:48:05 [utils.py:333] Attempted to load weight model.layers.35.self_attn.o_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:48:05 [utils.py:333] Attempted to load weight model.layers.36.mlp.down_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:48:06 [utils.py:333] Attempted to load weight model.layers.36.self_attn.o_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:48:06 [utils.py:333] Attempted to load weight model.layers.37.mlp.down_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:48:06 [utils.py:333] Attempted to load weight model.layers.37.self_attn.o_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:48:06 [utils.py:333] Attempted to load weight model.layers.38.mlp.down_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:48:07 [utils.py:333] Attempted to load weight model.layers.38.self_attn.o_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:48:07 [utils.py:333] Attempted to load weight model.layers.39.mlp.down_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:48:07 [utils.py:333] Attempted to load weight model.layers.39.self_attn.o_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:48:07 [utils.py:333] Attempted to load weight model.layers.40.mlp.down_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:48:07 [utils.py:333] Attempted to load weight model.layers.40.self_attn.o_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:48:07 [utils.py:333] Attempted to load weight model.layers.41.mlp.down_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+(MainProcess pid=3195306) WARNING 10-30 14:48:08 [utils.py:333] Attempted to load weight model.layers.41.self_attn.o_proj.scales with dtype torch.float16 into parameter with dtype torch.bfloat16
+Loading safetensors checkpoint shards: 100% Completed | 2/2 [00:24<00:00, 10.78s/it]
+Loading safetensors checkpoint shards: 100% Completed | 2/2 [00:24<00:00, 12.01s/it]
+
+(MainProcess pid=3195306) INFO 10-30 14:48:08 [default_loader.py:501] Loading weights took 24.12 seconds
+[rank0]:[W1030 14:48:08.956149659 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 411041792 bytes (free: 43581440, total: 50899386368).
+[rank0]:[W1030 14:48:08.977980484 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 411041792 bytes (free: 169410560, total: 50899386368).
+[rank0]:[W1030 14:48:08.041899151 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 205520896 bytes (free: 89718784, total: 50899386368).
+[rank0]:[W1030 14:48:09.155253002 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 411041792 bytes (free: 295239680, total: 50899386368).
+(MainProcess pid=3195306) INFO 10-30 14:48:16 [model_runner.py:424] Model loading took 5.84 GiB memory and 33.638016 seconds
+(MainProcess pid=3195306) INFO 10-30 14:48:19 [gpu_worker.py:669] Initial free memory 11.33 GiB, reserved 6.0 GiB memory for KV Cache as specified by kv_cache_memory_bytes config and skipped memory profiling. This does not respect the gpu_memory_utilization config. Only use kv_cache_memory_bytes config when you want manual control of KV cache memory size. If OOM'ed, check the difference of initial free memory between the current run and the previous run where kv_cache_memory_bytes is suggested and update it correspondingly.
+(MainProcess pid=3195306) INFO 10-30 14:48:19 [kv_cache_utils.py:2327] GPU KV cache size: 18,623 tokens, Maximum concurrency for 1,536 tokens per request: 12.12x
+(MainProcess pid=3195306) INFO 10-30 14:48:19 [kv_cache_utils.py:853] kv cache group sizes (16, 16)
+(MainProcess pid=3195306) INFO 10-30 14:48:19 [kv_cache_utils.py:854] kv lcm block sizes 16
+(MainProcess pid=3195306) INFO 10-30 14:48:21 [core.py:402] init engine (profile, create kv cache, warmup model) took 4.96 s
+14:49:06 gemma2-9b 600/6204 43s
+14:49:48 gemma2-9b 1200/6204 86s
+14:50:30 gemma2-9b 1800/6204 128s
+14:51:12 gemma2-9b 2400/6204 170s
+14:51:55 gemma2-9b 3000/6204 212s
+14:59:29 gemma2-9b 3600/6204 666s
+15:14:10 gemma2-9b 4200/6204 1548s
+15:31:21 gemma2-9b 4800/6204 2579s
+(MainProcess pid=3195306) WARNING 10-30 15:31:53 [detokenizer.py:250] Encountered invalid prefix detokenization error for request 1_4824-a0ad17b2, resetting decode stream.
+15:45:57 gemma2-9b 5400/6204 3454s
+15:59:20 gemma2-9b 6000/6204 4257s
+16:03:43 gemma2-9b 6204/6204 4521s
+16:03:46 done gemma2-9b; holding 22.0 GB
+16:03:47 llama3.1-8b: 6204 done, 0 to do, holding 22.0 GB
+16:03:47 done llama3.1-8b; holding 22.0 GB
+16:03:47 mistral-7b: 6204 done, 0 to do, holding 22.0 GB
+16:03:47 done mistral-7b; holding 22.0 GB
+16:03:47 qwen2.5-7b-bf16: 0 done, 6204 to do, holding 22.0 GB
+Ignoring corrupted tree cache file /data/transformers/hub/models--Qwen--Qwen2.5-7B-Instruct/trees/a09a35458c702b33eeacc393d103063234e8bc28.json: [Errno 13] Permission denied: '/data/transformers/hub/models--Qwen--Qwen2.5-7B-Instruct/trees/a09a35458c702b33eeacc393d103063234e8bc28.json'
+(MainProcess pid=3195306) INFO 10-30 16:03:47 [arg_utils.py:916] HF_HUB_OFFLINE is True, replace model_id [Qwen/Qwen2.5-7B-Instruct] to model_path [/data/transformers/hub/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28]
+(MainProcess pid=3195306) INFO 10-30 16:03:47 [api_utils.py:286] non-default args: {'seed': 42, 'max_model_len': 1536, 'enable_prefix_caching': True, 'gpu_memory_utilization': 0.3438818565400844, 'kv_cache_memory_bytes': 4724464025, 'max_num_batched_tokens': 4096, 'max_num_seqs': 256, 'disable_log_stats': True, 'enforce_eager': True, 'generation_config': 'vllm', 'model': '/data/transformers/hub/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28'}
+(MainProcess pid=3195306) WARNING 10-30 16:03:47 [arg_utils.py:1945] The global random seed is set to 42. Since VLLM_ENABLE_V1_MULTIPROCESSING is set to False, this may affect the random state of the Python process that launched vLLM.
+(MainProcess pid=3195306) INFO 10-30 16:03:47 [model.py:733] Resolved architecture: Qwen2ForCausalLM
+(MainProcess pid=3195306) INFO 10-30 16:03:47 [model.py:2152] Using max model len 1536
+(MainProcess pid=3195306) INFO 10-30 16:03:47 [kernel.py:467] Final IR op priority after setting platform defaults: IrOpPriorityConfig(rms_norm=['vllm_c', 'native'], fused_add_rms_norm=['vllm_c', 'native'], gelu_and_mul_sparse=['triton', 'native'])
+(MainProcess pid=3195306) INFO 10-30 16:03:50 [core.py:133] Initializing a V1 LLM engine (v0.32.0) with config: model='/data/transformers/hub/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28', speculative_config=None, tokenizer='/data/transformers/hub/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, tokenizer_revision=None, trust_remote_code=False, dtype=torch.bfloat16, max_seq_len=1536, download_dir=None, load_format=auto, tensor_parallel_size=1, pipeline_parallel_size=1, data_parallel_size=1, decode_context_parallel_size=1, dcp_comm_backend=ag_rs, disable_custom_all_reduce=False, quantization=None, quantization_config=None, enforce_eager=True, aux_output_config=AuxOutputConfig(enable_return_routed_experts=False, max_bytes=None), kv_cache_dtype=auto, device_config=cuda, structured_outputs_config=StructuredOutputsConfig(backend='auto', disable_any_whitespace=False, disable_additional_properties=False, reasoning_parser='', reasoning_parser_plugin='', enable_in_reasoning=False), observability_config=ObservabilityConfig(show_hidden_metrics_for_version=None, otlp_traces_endpoint=None, collect_detailed_traces=None, per_request_spec_decode_metrics='none', kv_cache_metrics=False, kv_cache_metrics_sample=0.01, custom_histogram_buckets=None, cudagraph_metrics=False, enable_layerwise_nvtx_tracing=False, enable_mfu_metrics=False, enable_mm_processor_stats=False, enable_logging_iteration_details=False, jit_monitor_mode='warn', jit_monitor_verbose=False), seed=42, served_model_name=/data/transformers/hub/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28, enable_prefix_caching=True, enable_chunked_prefill=True, pooler_config=None, compilation_config={'mode': <CompilationMode.NONE: 0>, 'debug_dump_path': None, 'cache_dir': '', 'compile_cache_save_format': 'binary', 'backend': 'inductor', 'custom_ops': ['all'], 'ir_enable_torch_wrap': False, 'splitting_ops': [], 'compile_mm_encoder': False, 'cudagraph_mm_encoder': False, 'encoder_cudagraph_token_budgets': [], 'encoder_cudagraph_max_vision_items_per_batch': 0, 'encoder_cudagraph_max_frames_per_batch': None, 'cudagraph_decoder_replay': True, 'decoder_replay_cudagraph_capture_sizes': [], 'decoder_replay_trim_threshold': 768, 'compile_sizes': [], 'compile_ranges_endpoints': [4096], 'inductor_compile_config': {'enable_auto_functionalized_v2': False, 'combo_kernels': True, 'benchmark_combo_kernel': True}, 'inductor_passes': {}, 'cudagraph_mode': <CUDAGraphMode.NONE: 0>, 'cudagraph_num_of_warmups': 0, 'cudagraph_capture_sizes': [], 'cudagraph_copy_inputs': False, 'cudagraph_specialize_lora': True, 'use_inductor_graph_partition': False, 'pass_config': {'fuse_norm_quant': True, 'fuse_act_quant': True, 'fuse_attn_quant': False, 'fuse_allreduce_rms': False, 'enable_qk_norm_rope_fusion': False, 'fuse_rope_kvcache_cat_mla': False, 'fuse_act_padding': False, 'fuse_qk_norm_rope_kvcache': False}, 'max_cudagraph_capture_size': 0, 'dynamic_shapes_config': {'type': <DynamicShapesType.BACKED: 'backed'>, 'evaluate_guards': False, 'assume_32_bit_indexing': False}, 'local_cache_dir': None, 'fast_moe_cold_start': False, 'static_all_moe_layers': []}, kernel_config=KernelConfig(ir_op_priority=IrOpPriorityConfig(rms_norm=['vllm_c', 'native'], fused_add_rms_norm=['vllm_c', 'native'], gelu_and_mul_sparse=['triton', 'native']), enable_flashinfer_autotune=True, enable_rocm_segmented_attn_autotune=False, enable_cutedsl_warmup=True, enable_jit_warmup=False, moe_backend='auto', sparse_indexer_topk_backend='auto', linear_backend='auto', linear_backend_per_quant=None)
+(MainProcess pid=3195306) INFO 10-30 16:03:50 [parallel_state.py:1906] world_size=1 rank=0 local_rank=0 distributed_init_method=file:///tmp/vllm_dist_bbb5f4f6258a4c759e8cd9deb910203b backend=nccl
+[rank0]:[W1030 16:03:51.905924859 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 272629760 bytes (free: 185532416, total: 50899386368).
+[rank0]:[W1030 16:03:51.941552494 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 272629760 bytes (free: 252641280, total: 50899386368).
+[rank0]:[W1030 16:03:51.977870218 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 136314880 bytes (free: 47120384, total: 50899386368).
+[rank0]:[W1030 16:03:51.014940499 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 136314880 bytes (free: 114229248, total: 50899386368).
+[rank0]:[W1030 16:03:52.052995999 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 27262976 bytes (free: 11468800, total: 50899386368).
+[rank0]:[W1030 16:03:52.092194566 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 1090519040 bytes (free: 112132096, total: 50899386368).
+(MainProcess pid=3195306) INFO 10-30 16:03:52 [base_loader.py:82] Initializing model took 0.607320 seconds
+(MainProcess pid=3195306) INFO 10-30 16:03:52 [weight_utils.py:1108] Filesystem type for checkpoints: ZFS. Checkpoint size: 14.19 GiB. Available RAM: 113.17 GiB.
+Loading safetensors checkpoint shards:   0% Completed | 0/4 [00:00<?, ?it/s]
+Loading safetensors checkpoint shards:  25% Completed | 1/4 [00:12<00:36, 12.32s/it]
+Loading safetensors checkpoint shards:  50% Completed | 2/4 [00:24<00:24, 12.14s/it]
+Loading safetensors checkpoint shards:  75% Completed | 3/4 [00:36<00:12, 12.09s/it]
+Loading safetensors checkpoint shards: 100% Completed | 4/4 [00:47<00:00, 11.80s/it]
+Loading safetensors checkpoint shards: 100% Completed | 4/4 [00:47<00:00, 11.93s/it]
+
+(MainProcess pid=3195306) INFO 10-30 16:04:40 [default_loader.py:501] Loading weights took 47.99 seconds
+(MainProcess pid=3195306) INFO 10-30 16:04:41 [model_runner.py:424] Model loading took 14.29 GiB memory and 50.761470 seconds
+(MainProcess pid=3195306) INFO 10-30 16:04:43 [gpu_worker.py:669] Initial free memory 26.92 GiB, reserved 4.4 GiB memory for KV Cache as specified by kv_cache_memory_bytes config and skipped memory profiling. This does not respect the gpu_memory_utilization config. Only use kv_cache_memory_bytes config when you want manual control of KV cache memory size. If OOM'ed, check the difference of initial free memory between the current run and the previous run where kv_cache_memory_bytes is suggested and update it correspondingly.
+(MainProcess pid=3195306) INFO 10-30 16:04:43 [kv_cache_utils.py:2327] GPU KV cache size: 82,384 tokens, Maximum concurrency for 1,536 tokens per request: 53.64x
+(MainProcess pid=3195306) INFO 10-30 16:04:44 [core.py:402] init engine (profile, create kv cache, warmup model) took 2.77 s
+16:05:00 qwen2.5-7b-bf16 600/6204 15s
+16:05:14 qwen2.5-7b-bf16 1200/6204 30s
+16:05:28 qwen2.5-7b-bf16 1800/6204 44s
+16:05:42 qwen2.5-7b-bf16 2400/6204 58s
+16:05:57 qwen2.5-7b-bf16 3000/6204 72s
+16:07:46 qwen2.5-7b-bf16 3600/6204 181s
+16:11:08 qwen2.5-7b-bf16 4200/6204 384s
+16:15:18 qwen2.5-7b-bf16 4800/6204 634s
+16:19:57 qwen2.5-7b-bf16 5400/6204 912s
+16:24:18 qwen2.5-7b-bf16 6000/6204 1173s
+16:25:48 qwen2.5-7b-bf16 6204/6204 1263s
+16:25:51 done qwen2.5-7b-bf16; holding 22.0 GB
+16:26:43 qwen2.5-14b: 6204 done, 0 to do, holding 22.0 GB
+16:26:43 done qwen2.5-14b; holding 22.0 GB
+16:26:43 queue empty
+16:27:13 queue empty
+16:27:43 queue empty
+16:28:13 queue empty
+16:28:43 queue empty
+16:29:13 queue empty
+16:29:43 queue empty
+16:30:13 queue empty
+16:30:43 queue empty
+16:31:13 queue empty
+16:31:43 queue empty
+16:32:13 queue empty

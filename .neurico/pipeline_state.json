@@ -1,0 +1,30 @@
+{
+  "created_at": "2026-10-30T18:17:05.144367Z",
+  "stages": {
+    "resource_finder": {
+      "status": "completed",
+      "completed_at": "2026-10-30T18:17:05.162477Z",
+      "success": true,
+      "outputs": {
+        "skipped": true
+      }
+    },
+    "experiment_runner": {
+      "status": "completed",
+      "started_at": "2026-10-30T18:17:05.171575Z",
+      "completed_at": "2026-10-30T22:14:04.225028Z",
+      "success": true,
+      "outputs": {
+        "success": true,
+        "return_code": 0,
+        "elapsed_time": 14219.026468515396,
+        "log_file": "/data/summereunann/neurico-workspaces/temperature_calibration_gaps_20261030_120000_ab12cd34/logs/execution_claude.log",
+        "transcript_file": "/data/summereunann/neurico-workspaces/temperature_calibration_gaps_20261030_120000_ab12cd34/logs/execution_claude_transcript.jsonl",
+        "background_processes_terminated": false
+      }
+    }
+  },
+  "current_stage": null,
+  "completed": true,
+  "completed_at": "2026-10-30T22:14:04.295573Z"
+}

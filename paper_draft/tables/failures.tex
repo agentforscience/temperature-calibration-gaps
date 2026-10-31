@@ -1,0 +1,19 @@
+\begin{table}[t]
+    \centering
+    \begin{tabular}{@{}ccccccccc@{}}
+        \toprule
+        & \multicolumn{3}{c}{\textbf{Code}} & \multicolumn{2}{c}{\textbf{QA}} & \multicolumn{2}{c}{\textbf{Stories}} \\
+        \cmidrule(lr){2-4} \cmidrule(lr){5-6} \cmidrule(lr){7-8}
+        \textbf{$T$} & Passes & Syntax errors & Truncated & Correct & Rambling & Truncated & Non-ASCII \\
+        \midrule
+        0.7 & 52\% & 2\% & 2\% & 49\% & 3\% & 10\% & 0.1\% \\
+        1.0 & 48\% & 4\% & 2\% & 47\% & 2\% & 14\% & 0.5\% \\
+        1.2 & 42\% & 17\% & 9\% & 43\% & 4\% & 47\% & 1.7\% \\
+        1.4 & 32\% & 45\% & 35\% & 37\% & 12\% & 70\% & 5.5\% \\
+        1.6 & 21\% & 68\% & 61\% & 29\% & 28\% & 87\% & 9.0\% \\
+        2.0 & 5\% & 93\% & 89\% & 11\% & 58\% & 92\% & 11.4\% \\
+        \bottomrule
+    \end{tabular}
+    \caption{Failure modes pooled over the 10 main models. Rambling means a wrong QA answer of more than 8 words. Between $T = 1.0$ and $1.4$, models stop ending their outputs and code stops parsing.}
+    \label{tab:failures}
+\end{table}

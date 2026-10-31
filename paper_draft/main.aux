@@ -1,0 +1,91 @@
+\relax 
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand\HyperFirstAtBeginDocument{\AtBeginDocument}
+\HyperFirstAtBeginDocument{\ifx\hyper@anchor\@undefined
+\global\let\oldcontentsline\contentsline
+\gdef\contentsline#1#2#3#4{\oldcontentsline{#1}{#2}{#3}}
+\global\let\oldnewlabel\newlabel
+\gdef\newlabel#1#2{\newlabelxx{#1}#2}
+\gdef\newlabelxx#1#2#3#4#5#6{\oldnewlabel{#1}{{#2}{#3}}}
+\AtEndDocument{\ifx\hyper@anchor\@undefined
+\let\contentsline\oldcontentsline
+\let\newlabel\oldnewlabel
+\fi}
+\fi}
+\global\let\hyper@last\relax 
+\gdef\HyperFirstAtBeginDocument#1{#1}
+\providecommand\HyField@AuxAddToFields[1]{}
+\providecommand\HyField@AuxAddToCoFields[2]{}
+\bibstyle{plainnat}
+\citation{renze2024temperature}
+\citation{peeperkorn2024temperature}
+\citation{chen2021codex}
+\@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}{section.1}\protected@file@percent }
+\newlabel{sec:intro}{{1}{1}{Introduction}{section.1}{}}
+\citation{holtzman2020curious}
+\citation{renze2024temperature}
+\citation{peeperkorn2024temperature}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Study design. We cross 10 models, 11 temperatures, and 3 tasks, measure diversity and quality in every cell, and summarize each model by where its quality falls. Two control runs set the noise floors for comparing curves.}}{2}{figure.1}\protected@file@percent }
+\newlabel{fig:overview}{{1}{2}{Study design. We cross 10 models, 11 temperatures, and 3 tasks, measure diversity and quality in every cell, and summarize each model by where its quality falls. Two control runs set the noise floors for comparing curves}{figure.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {2}Related Work}{2}{section.2}\protected@file@percent }
+\newlabel{sec:related}{{2}{2}{Related Work}{section.2}{}}
+\citation{chen2021codex}
+\citation{fan2018hierarchical}
+\citation{joshi2017triviaqa}
+\citation{chen2021codex}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Subject models. Each family is represented by one checkpoint per size, and the Llama ladder spans versions 3.2 and 3.1.}}{3}{table.1}\protected@file@percent }
+\newlabel{tab:models}{{1}{3}{Subject models. Each family is represented by one checkpoint per size, and the Llama ladder spans versions 3.2 and 3.1}{table.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3}Methodology}{3}{section.3}\protected@file@percent }
+\newlabel{sec:method}{{3}{3}{Methodology}{section.3}{}}
+\citation{holm1979simple}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Verdict on each clause of the hypothesis.}}{4}{table.2}\protected@file@percent }
+\newlabel{tab:verdicts}{{2}{4}{Verdict on each clause of the hypothesis}{table.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Results}{4}{section.4}\protected@file@percent }
+\newlabel{sec:results}{{4}{4}{Results}{section.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}H1: open-ended generation}{4}{subsection.4.1}\protected@file@percent }
+\newlabel{sec:h1}{{4.1}{4}{H1: open-ended generation}{subsection.4.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Quality relative to each model's own peak, with darker lines for larger models in a family. The dashed line marks 90\%, which defines \ensuremath  {T_u}\xspace  . On stories, most models go from near their peak to near zero within one or two grid steps, and the break ranges from $T \approx 0.8$ to 1.3 across models.}}{5}{figure.2}\protected@file@percent }
+\newlabel{fig:quality}{{2}{5}{Quality relative to each model's own peak, with darker lines for larger models in a family. The dashed line marks 90\%, which defines \Tu . On stories, most models go from near their peak to near zero within one or two grid steps, and the break ranges from $T \approx 0.8$ to 1.3 across models}{figure.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces All metrics by temperature for all models and controls, with bands showing bootstrap 95\% CIs. Vertical dashed lines mark $T = 0.7$ and $1.2$. Dotted gray lines are the control runs, which closely follow the matching main runs in shape.}}{5}{figure.3}\protected@file@percent }
+\newlabel{fig:curves}{{3}{5}{All metrics by temperature for all models and controls, with bands showing bootstrap 95\% CIs. Vertical dashed lines mark $T = 0.7$ and $1.2$. Dotted gray lines are the control runs, which closely follow the matching main runs in shape}{figure.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}H2: factual QA}{5}{subsection.4.2}\protected@file@percent }
+\newlabel{sec:h2}{{4.2}{5}{H2: factual QA}{subsection.4.2}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Open-ended generation. The slope ratio divides the diversity slope over $T \in [1.2, 2.0]$ by the slope over $[0.2, 1.2]$. Most models lose about half their judge score by $T = 1.4$, and the coherent rate shows the loss is near total. Best value in each column is in \textbf  {bold}, except at $T = 2.0$, where all models sit at the judge's floor.}}{6}{table.3}\protected@file@percent }
+\newlabel{tab:stories}{{3}{6}{Open-ended generation. The slope ratio divides the diversity slope over $T \in [1.2, 2.0]$ by the slope over $[0.2, 1.2]$. Most models lose about half their judge score by $T = 1.4$, and the coherent rate shows the loss is near total. Best value in each column is in \textbf {bold}, except at $T = 2.0$, where all models sit at the judge's floor}{table.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Diversity against coherence as $T$ rises, with hollow markers at $T = 1.2$. Coherence stays flat while diversity rises, then drops steeply. {\em  (Left)}: semantic diversity turns back on itself past the cliff. {\em  (Right)}: distinct-2 presses against its ceiling.}}{6}{figure.4}\protected@file@percent }
+\newlabel{fig:frontier}{{4}{6}{Diversity against coherence as $T$ rises, with hollow markers at $T = 1.2$. Coherence stays flat while diversity rises, then drops steeply. \figleft : semantic diversity turns back on itself past the cliff. \figright : distinct-2 presses against its ceiling}{figure.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}H3: code generation}{6}{subsection.4.3}\protected@file@percent }
+\newlabel{sec:h3}{{4.3}{6}{H3: code generation}{subsection.4.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}H4: model size}{6}{subsection.4.4}\protected@file@percent }
+\newlabel{sec:h4}{{4.4}{6}{H4: model size}{subsection.4.4}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Factual QA. The difference compares $T$ of 0.8--1.0 with $T \le 0.7$. Accuracy falls in every model and significantly in nine, but only by a few points. coverage@4\xspace  shows no consistent gain from 0.7 to 1.0. $p$-values use 10,000 permutations, so ``$<$.001'' is near the resolution limit. Best values are in \textbf  {bold}.}}{7}{table.4}\protected@file@percent }
+\newlabel{tab:qa}{{4}{7}{Factual QA. The difference compares $T$ of 0.8--1.0 with $T \le 0.7$. Accuracy falls in every model and significantly in nine, but only by a few points. \coverfour shows no consistent gain from 0.7 to 1.0. $p$-values use 10,000 permutations, so ``$<$.001'' is near the resolution limit. Best values are in \textbf {bold}}{table.4}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Code generation. Best $T$ maximizes pass@1\xspace  . Larger models hold their pass@1\xspace  far past $T = 0.8$, while the four significant drops from 0.6 to 1.0 are all at 3B or below. \ensuremath  {T_u}\xspace  CIs are wide because curves are flat near the threshold. Best values are in \textbf  {bold}.}}{7}{table.5}\protected@file@percent }
+\newlabel{tab:code}{{5}{7}{Code generation. Best $T$ maximizes \passone . Larger models hold their \passone far past $T = 0.8$, while the four significant drops from 0.6 to 1.0 are all at 3B or below. \Tu CIs are wide because curves are flat near the threshold. Best values are in \textbf {bold}}{table.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5}H5: family differences at matched scale}{7}{subsection.4.5}\protected@file@percent }
+\newlabel{sec:h5}{{4.5}{7}{H5: family differences at matched scale}{subsection.4.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.6}Controls and failure modes}{7}{subsection.4.6}\protected@file@percent }
+\newlabel{sec:controls}{{4.6}{7}{Controls and failure modes}{subsection.4.6}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces Size effects on \ensuremath  {T_u}\xspace  , with 95\% CIs for the ladder contrasts. The Qwen ladder gains range on every task, though the code CI barely clears zero. The Llama ladder gains on QA only.}}{8}{table.6}\protected@file@percent }
+\newlabel{tab:size}{{6}{8}{Size effects on \Tu , with 95\% CIs for the ladder contrasts. The Qwen ladder gains range on every task, though the code CI barely clears zero. The Llama ladder gains on QA only}{table.6}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Upper bound of the useful range for each model, ordered by size, with 95\% CIs. Story \ensuremath  {T_u}\xspace  shows Llama holding near 1.0 at every size while Qwen climbs with size. Code CIs are wide, so single-model code comparisons are weak.}}{8}{figure.5}\protected@file@percent }
+\newlabel{fig:ranges}{{5}{8}{Upper bound of the useful range for each model, ordered by size, with 95\% CIs. Story \Tu shows Llama holding near 1.0 at every size while Qwen climbs with size. Code CIs are wide, so single-model code comparisons are weak}{figure.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Discussion}{8}{section.5}\protected@file@percent }
+\newlabel{sec:discussion}{{5}{8}{Discussion}{section.5}{}}
+\bibdata{references}
+\@writefile{lot}{\contentsline {table}{\numberline {7}{\ignorespaces Family differences in semantic diversity curves, out of the 10 temperatures above 0. Llama pairs with Qwen and Mistral sit far above both floors, and Qwen and Mistral sit close to them. The largest values are in \textbf  {bold}.}}{9}{table.7}\protected@file@percent }
+\newlabel{tab:family}{{7}{9}{Family differences in semantic diversity curves, out of the 10 temperatures above 0. Llama pairs with Qwen and Mistral sit far above both floors, and Qwen and Mistral sit close to them. The largest values are in \textbf {bold}}{table.7}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Diversity curves for the four 7--9B AWQ models. On stories, Llama peaks and falls earlier than the others. On code, Llama and Mistral become diverse at low temperature, while Qwen and Gemma rise slowly, so the family order is not the same on each task.}}{9}{figure.6}\protected@file@percent }
+\newlabel{fig:family}{{6}{9}{Diversity curves for the four 7--9B AWQ models. On stories, Llama peaks and falls earlier than the others. On code, Llama and Mistral become diverse at low temperature, while Qwen and Gemma rise slowly, so the family order is not the same on each task}{figure.6}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6}Conclusion}{9}{section.6}\protected@file@percent }
+\newlabel{sec:conclusion}{{6}{9}{Conclusion}{section.6}{}}
+\bibcite{chen2021codex}{{1}{2021}{{Chen et~al.}}{{Chen, Tworek, Jun, Yuan, Pinto, Kaplan, Edwards, Burda, Joseph, Brockman, et~al.}}}
+\bibcite{fan2018hierarchical}{{2}{2018}{{Fan et~al.}}{{Fan, Lewis, and Dauphin}}}
+\bibcite{holm1979simple}{{3}{1979}{{Holm}}{{}}}
+\bibcite{holtzman2020curious}{{4}{2020}{{Holtzman et~al.}}{{Holtzman, Buys, Du, Forbes, and Choi}}}
+\bibcite{joshi2017triviaqa}{{5}{2017}{{Joshi et~al.}}{{Joshi, Choi, Weld, and Zettlemoyer}}}
+\bibcite{peeperkorn2024temperature}{{6}{2024}{{Peeperkorn et~al.}}{{Peeperkorn, Kouwenhoven, Brown, and Jordanous}}}
+\bibcite{renze2024temperature}{{7}{2024}{{Renze and Guven}}{{}}}
+\@writefile{lot}{\contentsline {table}{\numberline {8}{\ignorespaces Failure modes pooled over the 10 main models. Rambling means a wrong QA answer of more than 8 words. Between $T = 1.0$ and $1.4$, models stop ending their outputs and code stops parsing.}}{10}{table.8}\protected@file@percent }
+\newlabel{tab:failures}{{8}{10}{Failure modes pooled over the 10 main models. Rambling means a wrong QA answer of more than 8 words. Between $T = 1.0$ and $1.4$, models stop ending their outputs and code stops parsing}{table.8}{}}
+\gdef \@abspage@last{10}

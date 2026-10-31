@@ -1,0 +1,11 @@
+\begin{tikzpicture}[font=\footnotesize, node distance=4mm and 7mm,
+  box/.style={draw=black!55, rounded corners=1.5pt, align=center, inner sep=3.5pt, minimum height=15mm, text width=30mm},
+  arr/.style={-{Latex[length=1.6mm]}, draw=black!60}]
+\node[box] (m) {{\bf 10 open-weight models}\\ Qwen, Llama, Mistral, Gemma; 0.5B--14B};
+\node[box, right=of m] (t) {{\bf 11 temperatures}\\ $T\in[0,2]$, pure temperature sampling};
+\node[box, right=of t] (d) {{\bf 3 tasks}\\ stories, factual QA, code};
+\node[box, right=of d] (s) {{\bf Per-cell curves}\\ diversity and quality};
+\node[box, below=of s, text width=27mm] (u) {{\bf Per-model summaries}\\ \Tu, \Tfifty, curve shape};
+\node[box, left=of u, text width=63mm] (c) {{\bf Controls}: seed replicate (noise floor) and bf16 vs.\ AWQ (precision)};
+\draw[arr] (m) -- (t); \draw[arr] (t) -- (d); \draw[arr] (d) -- (s); \draw[arr] (s) -- (u); \draw[arr] (c) -- (u);
+\end{tikzpicture}

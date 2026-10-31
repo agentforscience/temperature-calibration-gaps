@@ -1,0 +1,25 @@
+<unknown>:5: SyntaxWarning: invalid escape sequence '\w'
+<unknown>:7: SyntaxWarning: invalid escape sequence '\s'
+<unknown>:12: SyntaxWarning: invalid escape sequence '\['
+<unknown>:12: SyntaxWarning: invalid escape sequence '\w'
+<unknown>:1: SyntaxWarning: invalid escape sequence '\ '
+<unknown>:5: SyntaxWarning: invalid escape sequence '\w'
+<unknown>:4: SyntaxWarning: invalid escape sequence '\w'
+<unknown>:4: SyntaxWarning: invalid escape sequence '\w'
+<unknown>:4: SyntaxWarning: invalid escape sequence '\s'
+<unknown>:4: SyntaxWarning: invalid escape sequence '\s'
+<unknown>:5: SyntaxWarning: invalid escape sequence '\ '
+<unknown>:4: SyntaxWarning: invalid escape sequence '\s'
+<unknown>:19: SyntaxWarning: invalid decimal literal
+<unknown>:8: SyntaxWarning: invalid escape sequence '\_'
+<unknown>:12: SyntaxWarning: invalid escape sequence '\ '
+<unknown>:4: SyntaxWarning: invalid escape sequence '\w'
+<unknown>:4: SyntaxWarning: invalid escape sequence '\d'
+<unknown>:4: SyntaxWarning: invalid escape sequence '\.'
+<unknown>:4: SyntaxWarning: invalid escape sequence '\W'
+<unknown>:4: SyntaxWarning: invalid escape sequence '\k'
+mistral-7b: executing 5423 unique programs (36136 cached)
+Could not reach the Hub (Cannot reach https://huggingface.co/api/models/sentence-transformers/all-mpnet-base-v2: offline mode is enabled. To disable it, please unset the `HF_HUB_OFFLINE` environment variable.). Using cached commit hash for 'sentence-transformers/all-mpnet-base-v2'.
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 6423.92it/s]
+[W1030 15:30:47.840143375 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 222298112 bytes (free: 151977984, total: 50899386368).
+mistral-7b: scored 23124 samples, 6204 groups

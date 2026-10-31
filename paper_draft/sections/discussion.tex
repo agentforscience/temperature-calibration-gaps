@@ -1,0 +1,24 @@
+\section{Discussion}
+\label{sec:discussion}
+
+\para{What do the cliffs mean?}
+Temperature's useful range is set by where each model breaks, and fixed thresholds such as 0.7, 0.8, or 1.2 describe no single model well. The abrupt shape would fit a feedback process in which one random token that breaks the text makes further random tokens more likely, but we did not test this mechanism. We also cannot say why families differ. Logit scale and vocabulary are candidates, and we measured neither.
+
+\para{What should practitioners do?}
+Below $T \approx 0.8$, temperature was safe on nearly every model we tested, but it is a weak diversity control. The common 0.7 default is therefore safe rather than optimal. Single-attempt code and QA do best at low $T$. If several attempts can be checked, moderate $T$ helps: \passfour and \coverfour both gain over greedy. Above $T \approx 1.0$, the same setting can give intact output on one model and word salad on another of the same size, so the range has to be checked per model. At $T = 1.2$, Mistral-7B has a coherent rate of 0.995 and Llama-3.1-8B has 0.07.
+
+\para{Limitations.}
+Several limits bound these conclusions.
+\begin{itemize}[leftmargin=*,itemsep=0pt,topsep=0pt]
+    \item {\bf One judge with a compressed scale.} The Qwen3-8B judge rarely scores below 3 and shares a lineage with the Qwen subjects. An audit of 16 boundary stories agreed with the threshold on 12 (75\%), with the judge slightly conservative. The audit was done by the research agent rather than by human raters, covers one model, and is small.
+    \item {\bf Embedding diversity misleads on degenerate text} (\secref{sec:h1}).
+    \item {\bf Confounds.} Each family has one checkpoint per size, so family cannot be separated from checkpoint or quantizer differences, and precision co-varies with size. The Llama ladder also crosses versions 3.2 and 3.1.
+    \item {\bf Mistral's low code score.} Its \passone of .268 is far below what its QA score suggests. Restoring prompt imports raised it only to .280, and most failures are real assertion errors, but the cause is unexplained. This score should not be taken as representative of Mistral-7B.
+    \item {\bf Scope.} We test pure temperature only, short stories, one prompt per task, and 4 samples per cell. $T = 0$ uses one sample, one seed replicate on one model is a thin noise floor, and vLLM batch composition can change outputs slightly. Results may not apply to hosted frontier models.
+    \item {\bf Resolution and thresholds.} Grid steps of 0.2 above $T = 0.8$ limit how precisely we can place a cliff, and \Tu depends on the 90\% threshold. Story \Tu CIs are narrow partly because of interpolation.
+    \item {\bf Multiple comparisons} are corrected within tests but not across all hypotheses, and several analysis choices came after seeing partial data (\secref{sec:method}).
+    \item {\bf Contamination.} All three datasets are public and may be in training data. This matters little for curve shapes and more for absolute levels.
+\end{itemize}
+
+\para{Broader implications.}
+Interfaces that offer a single temperature slider imply that a value means the same thing on every model, and our results show it does not. Benchmarks that compare models at one fixed temperature above 1 may partly measure where each model's cliff falls. Diversity metrics also need care, because a metric that falls on broken text can hide what happens past the cliff.

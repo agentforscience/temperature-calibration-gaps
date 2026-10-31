@@ -1,0 +1,20 @@
+\begin{table}[t]
+    \centering
+    \begin{tabular}{@{}lccc@{}}
+        \toprule
+        \textbf{Pair (7--9B, all AWQ)} & \textbf{Shape gap} & \textbf{$T$s with CI excluding 0} & \textbf{Peak $T$} \\
+        \midrule
+        Qwen 7B vs.\ Llama 8B & {\bf 0.220} & 9 & 1.4 vs.\ 1.0 \\
+        Llama 8B vs.\ Mistral 7B & 0.205 & {\bf 10} & 1.0 vs.\ 1.4 \\
+        Llama 8B vs.\ Gemma 9B & 0.118 & 8 & 1.0 vs.\ 1.4 \\
+        Qwen 7B vs.\ Gemma 9B & 0.104 & 8 & 1.4 vs.\ 1.4 \\
+        Mistral 7B vs.\ Gemma 9B & 0.098 & 9 & 1.4 vs.\ 1.4 \\
+        Qwen 7B vs.\ Mistral 7B & 0.046 & 2 & 1.4 vs.\ 1.4 \\
+        \midrule
+        Floor: seed replicate & 0.031 & 0 & 1.2 vs.\ 1.2 \\
+        Floor: bf16 vs.\ AWQ & 0.026 & 1 & 1.4 vs.\ 1.4 \\
+        \bottomrule
+    \end{tabular}
+    \caption{Family differences in semantic diversity curves, out of the 10 temperatures above 0. Llama pairs with Qwen and Mistral sit far above both floors, and Qwen and Mistral sit close to them. The largest values are in \textbf{bold}.}
+    \label{tab:family}
+\end{table}

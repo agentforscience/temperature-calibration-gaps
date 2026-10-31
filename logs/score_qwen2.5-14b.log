@@ -1,0 +1,12 @@
+<unknown>:21: SyntaxWarning: invalid escape sequence '\s'
+<unknown>:16: SyntaxWarning: invalid escape sequence '\d'
+<unknown>:13: SyntaxWarning: invalid escape sequence '\_'
+<unknown>:44: SyntaxWarning: invalid escape sequence '\|'
+<unknown>:3: SyntaxWarning: invalid escape sequence '\d'
+<unknown>:12: SyntaxWarning: invalid escape sequence '\H'
+<unknown>:9: SyntaxWarning: invalid escape sequence '\-'
+<unknown>:18: SyntaxWarning: invalid escape sequence '\s'
+qwen2.5-14b: executing 4071 unique programs (53258 cached)
+Could not reach the Hub (Cannot reach https://huggingface.co/api/models/sentence-transformers/all-mpnet-base-v2: offline mode is enabled. To disable it, please unset the `HF_HUB_OFFLINE` environment variable.). Using cached commit hash for 'sentence-transformers/all-mpnet-base-v2'.
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 6663.05it/s]
+qwen2.5-14b: scored 23124 samples, 6204 groups

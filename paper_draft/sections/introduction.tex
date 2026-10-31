@@ -1,0 +1,29 @@
+\section{Introduction}
+\label{sec:intro}
+
+Temperature is the one decoding setting that nearly every large language model (LLM) interface exposes, and most users set it by habit. The common advice says to use a low value for code, about 0.7 for chat, and a value above 1 for creative work. Our main question is whether this advice matches what temperature actually does.
+
+The answer matters because temperature trades off two things people want. Higher values make outputs more varied, which helps brainstorming, creative writing, and any workflow that samples several candidates. They also make outputs more likely to be wrong or broken. If diversity stops improving while quality keeps falling, a high setting buys nothing. If the safe range depends on the model, a single default is wrong for most deployments.
+
+Existing studies answer parts of this question. \citet{renze2024temperature} found no significant effect of temperature between 0 and 1 on multiple-choice problem solving. \citet{peeperkorn2024temperature} found only a weak link between temperature and story novelty for one fixed model. \citet{chen2021codex} tuned temperature for code on one model family. However, each of these studies looks at a single kind of task, so none shows whether a limit found on one task carries over to another or how it moves with model size and family. On the other hand, the folklore makes exactly such claims. We state one version as a testable hypothesis: open-ended diversity plateaus above $T = 1.2$ while coherence drops 20--40\%; factual accuracy degrades above 0.7 with no useful diversity gain; code has a narrow useful range of 0.2--0.6 with a sharp collapse above 0.8; smaller models have narrower useful ranges; and curve shapes differ across families at the same scale.
+
+We test this hypothesis with one controlled grid (\figref{fig:overview}). We run 10 open-weight models, two size ladders plus two models from other families, at 11 temperatures from 0 to 2.0 on stories, closed-book trivia, and executed code. All models use pure temperature sampling, so no other decoding setting hides the effect. For each cell we measure both diversity and quality, then derive each model's useful temperature range.
+
+\begin{figure}[t]
+    \centering
+    \resizebox{0.95\linewidth}{!}{\input{figures/overview}}
+    \caption{Study design. We cross 10 models, 11 temperatures, and 3 tasks, measure diversity and quality in every cell, and summarize each model by where its quality falls. Two control runs set the noise floors for comparing curves.}
+    \label{fig:overview}
+\end{figure}
+
+We find that temperature fails abruptly and at a model-specific point. Story coherence falls below 90\% of peak at $T \approx 0.84$ for Qwen2.5-0.5B and at $T \approx 1.31$ for Qwen2.5-14B. No fixed threshold describes all models. The code clause is largely wrong: no model drops significantly from $T = 0.6$ to $0.8$, and the largest relative drop from 0.6 to 1.0 is 28\%. Greedy decoding is best or tied for best on \passone for 5 of 10 models, while sampling four times at $T = 0.8$ adds 6--18 points over a single greedy attempt. Factual accuracy does fall above 0.7, but by only 0.7--5.2 points at $T$ of 0.8--1.0.
+
+Our contributions are:
+\begin{itemize}[leftmargin=*,itemsep=0pt,topsep=0pt]
+    \item We measure diversity and quality on one grid across three tasks, 10 models, and temperatures up to 2.0, with seed and precision controls.
+    \item We test five common claims about temperature and give each a clause-level verdict: one partly supported, one mostly supported with a small effect, one refuted as stated, and two supported with qualifications.
+    \item We show that the useful range depends on both size and family, and that Llama models break earlier on stories than same-size models from other families.
+    \item We show that much of the apparent diversity plateau is a measurement artifact: distinct-2 hits its ceiling and embedding diversity becomes unreliable on degenerate text.
+\end{itemize}
+
+\Secref{sec:related} reviews prior work, \secref{sec:method} describes our design, \secref{sec:results} presents results for each claim, \secref{sec:discussion} covers interpretation and limitations, and \secref{sec:conclusion} concludes.

@@ -1,0 +1,16 @@
+\section{Related Work}
+\label{sec:related}
+
+This project had no systematic literature search, so we position our work against four directly relevant studies rather than claim to cover the field.
+
+\para{Temperature and degenerate text.}
+\citet{holtzman2020curious} showed that high-randomness sampling produces incoherent text and proposed nucleus sampling to fix it. We do not compare samplers. Instead, we hold every other setting off and ask where pure temperature sampling breaks for each model.
+
+\para{Temperature and accuracy.}
+\citet{renze2024temperature} tested nine LLMs on multiple-choice problems at temperatures from 0 to 1.6 and found no significant effect between 0 and 1. Our tasks use open-ended trivia and code rather than multiple choice. With paired tests, we detect a small but significant accuracy loss at $T$ of 0.8--1.0 for 9 of 10 models, which agrees with theirs on the small size of the effect but not on its absence.
+
+\para{Temperature and creativity.}
+\citet{peeperkorn2024temperature} asked whether temperature is the ``creativity parameter'' of LLMs, using one fixed context, model, and prompt. They found that temperature is weakly correlated with novelty and moderately correlated with incoherence. Building on this, we track diversity and coherence together across 10 models, which shows how far the point of incoherence moves between models.
+
+\para{Temperature and code.}
+\citet{chen2021codex} reported that for a 679M-parameter Codex model the best temperature was 0.2 for pass@1 and 0.8 for pass@100, because higher temperatures give more diverse samples. Our \passfour results follow the same pattern over a wider range of models. Unlike that study, we put code on the same grid as other tasks and test whether a narrow useful range holds across sizes and families.

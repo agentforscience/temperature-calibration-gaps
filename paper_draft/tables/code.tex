@@ -1,0 +1,25 @@
+\begin{table}[t]
+    \centering
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{@{}lccccccccccc@{}}
+        \toprule
+        & & & & & \multicolumn{4}{c}{\textbf{\passone}} & & \\
+        \cmidrule(lr){6-9}
+        \textbf{Model} & \textbf{Greedy} & \textbf{Best $T$} & \textbf{\Tu (95\% CI)} & \textbf{\Tfifty} & 0.6 & 0.8 & 1.0 & 1.2 & \textbf{\passfour at 0.8} & \textbf{Holm $p$, 0.6 vs.\ 1.0} \\
+        \midrule
+        Qwen2.5-0.5B & .360 & 0.4 & 0.58 (0.41--0.64) & 1.09 & .323 & .273 & .232 & .123 & .476 & $<$.001 \\
+        Qwen2.5-1.5B & .585 & 0 & 0.81 (0.34--0.87) & 1.29 & .535 & .535 & .415 & .354 & .750 & $<$.001 \\
+        Qwen2.5-3B & .640 & 0.2 & 1.07 (0.81--1.22) & 1.70 & .630 & .642 & .601 & .570 & .823 & .916 \\
+        Qwen2.5-7B & .768 & 0.7 & {\bf 1.42} (1.07--1.46) & 1.79 & .770 & .759 & .739 & .710 & .860 & .392 \\
+        Qwen2.5-14B & {\bf .841} & 0 & 1.15 (0.56--1.43) & {\bf 1.82} & {\bf .787} & {\bf .793} & {\bf .780} & {\bf .750} & {\bf .902} & .946 \\
+        Llama-3.2-1B & .341 & 0 & 0.44 (0.16--0.68) & 1.17 & .276 & .284 & .230 & .160 & .421 & .038 \\
+        Llama-3.2-3B & .549 & 0 & 0.72 (0.31--0.88) & 1.23 & .497 & .486 & .398 & .312 & .707 & $<$.001 \\
+        Llama-3.1-8B & .628 & 0 & 0.69 (0.37--0.91) & 1.26 & .582 & .537 & .532 & .381 & .744 & .085 \\
+        Mistral-7B & .268 & 0.7 & 0.78 (0.14--1.05) & 1.39 & .264 & .238 & .241 & .191 & .421 & .946 \\
+        Gemma-2-9B & .610 & 0.4 & 1.34 (0.60--1.41) & 1.65 & .591 & .616 & .607 & .595 & .707 & .946 \\
+        \bottomrule
+    \end{tabular}
+    }
+    \caption{Code generation. Best $T$ maximizes \passone. Larger models hold their \passone far past $T = 0.8$, while the four significant drops from 0.6 to 1.0 are all at 3B or below. \Tu CIs are wide because curves are flat near the threshold. Best values are in \textbf{bold}.}
+    \label{tab:code}
+\end{table}

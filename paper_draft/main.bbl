@@ -1,0 +1,54 @@
+\begin{thebibliography}{7}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Chen et~al.(2021)Chen, Tworek, Jun, Yuan, Pinto, Kaplan, Edwards,
+  Burda, Joseph, Brockman, et~al.]{chen2021codex}
+Mark Chen, Jerry Tworek, Heewoo Jun, Qiming Yuan, Henrique Ponde de~Oliveira
+  Pinto, Jared Kaplan, Harri Edwards, Yuri Burda, Nicholas Joseph, Greg
+  Brockman, et~al.
+\newblock Evaluating large language models trained on code.
+\newblock arXiv:2107.03374, 2021.
+
+\bibitem[Fan et~al.(2018)Fan, Lewis, and Dauphin]{fan2018hierarchical}
+Angela Fan, Mike Lewis, and Yann Dauphin.
+\newblock Hierarchical neural story generation.
+\newblock In \emph{Proceedings of ACL}, pages 889--898, 2018.
+
+\bibitem[Holm(1979)]{holm1979simple}
+Sture Holm.
+\newblock A simple sequentially rejective multiple test procedure.
+\newblock \emph{Scandinavian Journal of Statistics}, 6\penalty0 (2):\penalty0
+  65--70, 1979.
+
+\bibitem[Holtzman et~al.(2020)Holtzman, Buys, Du, Forbes, and
+  Choi]{holtzman2020curious}
+Ari Holtzman, Jan Buys, Li~Du, Maxwell Forbes, and Yejin Choi.
+\newblock The curious case of neural text degeneration.
+\newblock In \emph{Proceedings of ICLR}, 2020.
+
+\bibitem[Joshi et~al.(2017)Joshi, Choi, Weld, and
+  Zettlemoyer]{joshi2017triviaqa}
+Mandar Joshi, Eunsol Choi, Daniel~S. Weld, and Luke Zettlemoyer.
+\newblock {TriviaQA}: A large scale distantly supervised challenge dataset for
+  reading comprehension.
+\newblock In \emph{Proceedings of ACL}, pages 1601--1611, 2017.
+
+\bibitem[Peeperkorn et~al.(2024)Peeperkorn, Kouwenhoven, Brown, and
+  Jordanous]{peeperkorn2024temperature}
+Max Peeperkorn, Tom Kouwenhoven, Dan Brown, and Anna Jordanous.
+\newblock Is temperature the creativity parameter of large language models?
+\newblock In \emph{Proceedings of the 15th International Conference on
+  Computational Creativity (ICCC)}, 2024.
+
+\bibitem[Renze and Guven(2024)]{renze2024temperature}
+Matthew Renze and Erhan Guven.
+\newblock The effect of sampling temperature on problem solving in large
+  language models.
+\newblock In \emph{Findings of the Association for Computational Linguistics:
+  EMNLP 2024}, pages 7346--7356, 2024.
+
+\end{thebibliography}

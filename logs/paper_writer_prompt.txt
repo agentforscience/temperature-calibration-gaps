@@ -1,0 +1,682 @@
+You are an academic paper writer. Generate a complete NEURIPS style paper
+based on the experiment results provided.
+
+════════════════════════════════════════════════════════════════════════════════
+                         IMPORTANT: BEFORE YOU START
+════════════════════════════════════════════════════════════════════════════════
+
+Before writing any content, you MUST complete these steps:
+
+1. READ THE SKILL: Review the paper-writer skill at .claude/skills/paper-writer/SKILL.md
+2. READ THE STYLE GUIDE: Study templates/paper_writing/lab_style_guide.md carefully
+3. REVIEW EXAMPLES: Browse paper_examples/ for formatting and language patterns:
+   - Look at sections/1.introduction.tex for language style
+   - Look at tables/*.tex for table formatting
+   - Look at commands/*.tex for macro usage
+4. VERIFY COMMAND TEMPLATES: Command templates (math.tex, general.tex, macros.tex) are pre-copied to paper_draft/commands/
+
+CRITICAL: Reference example papers for FORMATTING and LANGUAGE STYLE only.
+Do NOT copy content, phrasing, or narrative structure from the example papers.
+The examples are in a different research domain - focus only on presentation style.
+
+════════════════════════════════════════════════════════════════════════════════
+                            EXPERIMENT REPORT
+════════════════════════════════════════════════════════════════════════════════
+
+# Temperature Calibration Gaps: When Softmax Temperature Fails to Control Output Diversity
+
+## 1. Executive Summary
+
+**Question.** How do output diversity and quality change with softmax temperature (T = 0–2.0) on open-ended, factual
+and coding tasks, and does the useful range depend on model size and family?
+
+**Main finding.** Temperature does not fail gradually. Quality stays almost flat up to a model-specific point and then
+drops sharply. That point depends strongly on the model: story coherence falls below 90% of peak at T ≈ 0.84 for
+Qwen2.5-0.5B and T ≈ 1.31 for Qwen2.5-14B. The hypothesis's fixed thresholds (0.7, 0.8, 1.2) describe no single model
+well, and the coding clause is largely wrong for models of 3B and up.
+
+| Clause | Verdict | Evidence |
+|---|---|---|
+| Open-ended: diversity plateaus above 1.2, coherence drops 20–40% | **Partly supported** | Measured diversity stops rising in 9/10 models, but it peaks at T = 1.0–1.4 and then falls. Coherence loss is usually larger than predicted: 48–63% at T = 1.4 in 9/10 models |
+| Factual QA: above 0.7 accuracy degrades with no meaningful diversity gain | **Mostly supported, small effect** | T = 0.8–1.0 is worse than T ≤ 0.7 in 9/10 models, but only by 0.7–5.2 points. Coverage over 4 samples gains nothing further above 0.7 |
+| Code: narrow useful range 0.2–0.6, sharp collapse above 0.8 | **Refuted as stated** | No model drops significantly from 0.6 to 0.8. Greedy (T = 0) is best or tied-best for 5/10 models, and models ≥3B in the Qwen family and Gemma stay within 90% of peak to T ≈ 1.1–1.4 |
+| Smaller models have narrower useful ranges | **Supported for Qwen, weak for Llama** | Qwen ladder: yes on all three tasks. Llama ladder: QA only; story cliff does not move from 1B to 8B |
+| Curve shape differs across families at the same scale | **Supported** | Llama differs from the other three families by 4–7× the seed noise floor; Qwen and Mistral are close to each other |
+
+**Practical implication.** Below T ≈ 0.8 temperature is safe on nearly every model tested, but it is a weak diversity
+control. Above T ≈ 1.0, check the specific model: identical settings can give intact output on one model and word
+salad on another of the same size.
+
+No API key was available, so all subject models are open-weight checkpoints run locally. GPT, Claude and Gemini were
+not tested and these results should not be assumed to apply to them.
+
+## 2. Research Question & Hypothesis
+
+Testable sub-hypotheses (H1–H5) are defined in `planning.md`:
+
+- **H1 open-ended:** diversity gain is much smaller above T = 1.2, while coherence at T ≥ 1.4 is 20–40% below peak.
+- **H2 factual QA:** accuracy above 0.7 falls, with little gain in coverage.
+- **H3 code:** useful range ≈ 0.2–0.6, sharp collapse above 0.8.
+- **H4 size:** the upper end of the useful range grows with model size.
+- **H5 family:** curves differ across families at matched size.
+
+## 3. Literature Context
+
+The resource-finding stage produced no `literature_review.md`, `papers/` or `code/`. The works below are cited **from
+memory and were not re-checked against the papers**, so treat their details as unverified:
+
+- Holtzman et al. (2020): degeneration at high randomness motivated nucleus sampling.
+- Chen et al. (2021, Codex): best pass@1 at low T, best pass@k at moderate T. Our pass@4 pattern is consistent with this.
+- Renze & Guven (2024): accuracy broadly flat over T in [0, 1].
+- Peeperkorn et al. (2024): temperature only weakly raises story novelty and costs coherence.
+
+The intended contribution is one controlled grid across tasks, sizes and families, extending to T = 2.0.
+
+## 4. Methodology
+
+### Models
+Ten models, plus two controls. All use pure temperature sampling (`top_p=1`, `top_k` off, `min_p=0`,
+`repetition_penalty=1`, `generation_config="vllm"`), with vLLM 0.32 on NVIDIA RTX A6000 GPUs.
+
+| Key | Checkpoint | Params | Precision |
+|---|---|---|---|
+| qwen2.5-0.5b / -1.5b | Qwen/Qwen2.5-{0.5,1.5}B-Instruct | 0.5B / 1.5B | bf16 |
+| qwen2.5-3b / -7b / -14b | Qwen/Qwen2.5-{3,7,14}B-Instruct-AWQ | 3.1B / 7.6B / 14.8B | AWQ-INT4 |
+| llama3.2-1b | unsloth/Llama-3.2-1B-Instruct | 1.2B | bf16 |
+| llama3.2-3b | AMead10/Llama-3.2-3B-Instruct-AWQ | 3.2B | AWQ-INT4 |
+| llama3.1-8b | hugging-quants/Meta-Llama-3.1-8B-Instruct-AWQ-INT4 | 8.0B | AWQ-INT4 |
+| mistral-7b | solidrust/Mistral-7B-Instruct-v0.3-AWQ | 7.2B | AWQ-INT4 |
+| gemma2-9b | hugging-quants/gemma-2-9b-it-AWQ-INT4 | 9.2B | AWQ-INT4 |
+| *control:* qwen2.5-0.5b-seed2 | same as 0.5B, different sampling seeds | 0.5B | bf16 |
+| *control:* qwen2.5-7b-bf16 | Qwen/Qwen2.5-7B-Instruct | 7.6B | bf16 |
+
+### Design
+- **Temperatures:** 0, 0.2, 0.4, 0.6, 0.7, 0.8, 1.0, 1.2, 1.4, 1.6, 2.0.
+- **Samples:** 4 per (prompt, T); 1 at T = 0, which is deterministic. That is 23,124 samples per run and about 277,000
+  in total across 12 runs. All 12 runs completed all 6,204 (prompt, T) cells.
+- **Stories:** 100 WritingPrompts test prompts, up to 256 tokens.
+- **Factual QA:** 300 closed-book TriviaQA validation questions, up to 24 tokens.
+- **Code:** all 164 HumanEval problems, up to 448 tokens, executed against the official tests in a resource-limited
+  subprocess. Full prompts are in `src/prep_data.py`.
+
+### Metrics
+- **Stories, diversity:** mean pairwise cosine distance of `all-mpnet-base-v2` embeddings (`sem_div`), and distinct-2
+  over pooled samples.
+- **Stories, quality:** Qwen3-8B judge, 1–9, probability-weighted digit, on 2 of 4 samples; "coherent rate" = share scoring ≥5; lexical validity.
+- **QA:** per-sample accuracy (normalized alias match), coverage@4 (any of 4 correct), distinct answers.
+- **Code:** pass@1, pass@4, syntax validity, distinct programs by AST.
+- **Useful range:** temperatures with quality ≥ 90% of the model's peak, linearly interpolated; T_u is the upper
+  bound. Story quality here is the coherent rate.
+
+All 25,200 judgments (2,100 per run) passed the logprob validity checks, with none falling back to text parsing.
+
+### Statistics
+Item-level bootstrap (2,000 resamples) for CIs, paired sign-flip permutation tests with Holm correction, and Spearman
+correlation for size trends. Curve-shape gaps are compared with two measured floors: a seed replicate and a
+bf16-vs-AWQ control.
+
+### Changes from the plan
+- **14B and 3B models moved to AWQ.** Shared-GPU memory ruled out 14B bf16, and 3B moved to fit a small idle slice.
+  Precision therefore co-varies with size in both ladders (bf16 ≤1.5B, AWQ ≥3B). Section 5.6 shows the effect on curve
+  shape is small but the effect on level is not zero.
+- **Story useful range uses the coherent rate, not the raw judge score.** This was decided after seeing Qwen2.5-0.5B
+  and Llama-1B results, because the judge rarely scores below 3.
+- **The judge rubric was edited once** after inspecting five samples, before any scored judging run.
+- **A seed replicate was added** as a noise floor, and Holm correction and ladder contrasts were added to the analysis.
+  Several analysis choices were therefore made after seeing partial data.
+
+## 5. Results
+
+![All curves](figures/curves_all.png)
+
+### 5.1 H1: open-ended generation
+![Story frontier](figures/story_frontier.png)
+
+| Model | Peak `sem_div` at T | Slope ratio, `sem_div` (1.2–2.0 / 0.2–1.2) | Slope ratio, distinct-2 | Judge drop at 1.2 | at 1.4 | at 2.0 | Coherent rate at 1.2 | at 1.4 |
+|---|---|---|---|---|---|---|---|---|
+| qwen2.5-0.5b | 1.2 | −1.00 | 0.03 | 44% | 50% | 50% | 0.03 | 0.01 |
+| qwen2.5-1.5b | 1.2 | −0.38 | 0.07 | 53% | 60% | 61% | 0.07 | 0.00 |
+| qwen2.5-3b | 1.4 | −0.45 | 0.23 | 17% | 48% | 62% | 0.86 | 0.22 |
+| qwen2.5-7b | 1.4 | −0.47 | 0.38 | 17% | 53% | 64% | 0.88 | 0.20 |
+| qwen2.5-14b | 1.6 | **+0.98** | 0.43 | 3% | 19% | 63% | 1.00 | 0.82 |
+| llama3.2-1b | 1.0 | −2.09 | 0.05 | 58% | 61% | 62% | 0.04 | 0.00 |
+| llama3.2-3b | 1.0 | −1.41 | 0.12 | 55% | 62% | 62% | 0.10 | 0.00 |
+| llama3.1-8b | 1.0 | −1.65 | 0.09 | 57% | 63% | 63% | 0.07 | 0.00 |
+| mistral-7b | 1.4 | −0.81 | 0.42 | 15% | 49% | 63% | 1.00 | 0.13 |
+| gemma2-9b | 1.4 | −1.02 | 0.26 | 10% | 53% | 64% | 0.95 | 0.09 |
+
+- **Plateau:** supported in the sense that diversity stops improving, but "plateau" is the wrong shape. Semantic
+  diversity rises, peaks and falls in 9/10 models. Qwen2.5-14B is the exception, with no slowdown between the two
+  ranges (ratio 0.98, 95% CI 0.69–1.30).
+- **Most of the "plateau" is measurement.** Distinct-2 flattens because it reaches its ceiling of 1.0. The fall in
+  `sem_div` arises because word salad from different prompts embeds similarly, so it does not mean the outputs are
+  less varied.
+- **Diversity among coherent outputs keeps rising.** Restricted to prompts where both judged samples are coherent,
+  `sem_div` increases at almost every T until too few coherent groups remain
+  (`results/analysis/sem_div_coherent_groups.csv`). This is a selected subset, but it suggests coherence loss, not
+  saturation, is what ends useful diversity.
+- **Coherence:** the 20–40% prediction is met only in passing. At T = 1.4 one model falls in or near that range
+  (14B, 19%); nine lose 48–63%. Because the judge's floor is about 3, these figures understate the damage, and the
+  raw scale cannot fall more than about 64%. The coherent rate shows it better: it goes from about 1.0 to about 0 within
+  one or two grid steps.
+
+### 5.2 H2: factual QA
+
+| Model | Greedy acc | Mean T ≤ 0.7 | Mean T 0.8–1.0 | Difference | Holm p | Mean T ≥ 1.2 | Coverage@4, T = 0.7 | Coverage@4, T = 1.0 |
+|---|---|---|---|---|---|---|---|---|
+| qwen2.5-0.5b | .140 | .134 | .090 | −4.4 pt | <.001 | .030 | .217 | .167 |
+| qwen2.5-1.5b | .370 | .360 | .330 | −2.9 pt | .001 | .198 | .467 | .430 |
+| qwen2.5-3b | .410 | .393 | .367 | −2.6 pt | .001 | .234 | .447 | .463 |
+| qwen2.5-7b | .553 | .545 | .522 | −2.2 pt | .001 | .348 | .593 | .603 |
+| qwen2.5-14b | .627 | .621 | .615 | −0.7 pt | .217 | .512 | .653 | .660 |
+| llama3.2-1b | .317 | .314 | .262 | −5.2 pt | <.001 | .104 | .410 | .383 |
+| llama3.2-3b | .553 | .545 | .497 | −4.8 pt | <.001 | .246 | .613 | .623 |
+| llama3.1-8b | .700 | .692 | .642 | −5.0 pt | <.001 | .346 | .763 | .760 |
+| mistral-7b | .723 | .713 | .693 | −2.0 pt | <.001 | .548 | .753 | .757 |
+| gemma2-9b | .753 | .744 | .719 | −2.5 pt | .001 | .435 | .810 | .800 |
+
+P-values come from 10,000 sign-flip permutations, so "<.001" is near the resolution limit. Holm correction here and
+in 5.3 was applied over all 12 runs, including the two controls.
+
+Accuracy falls significantly in 9/10 models, but the loss is small. The degradation is gradual up to about T = 1.2 and
+steep only beyond it. Sampling does help somewhat at or below 0.7: coverage@4 is 2.7–9.7 points above greedy
+accuracy at T = 0.7. Moving from 0.7 to 1.0 adds nothing on average (changes range from −5.0 to +1.7 points), even
+though distinct answers keep rising. The extra diversity above 0.7 is mostly more wrong answers.
+
+### 5.3 H3: code generation
+
+| Model | Greedy pass@1 | Best T | T_u (95% CI) | T50 | pass@1 at 0.6 | 0.8 | 1.0 | 1.2 | Holm p, 0.6 vs 1.0 |
+|---|---|---|---|---|---|---|---|---|---|
+| qwen2.5-0.5b | .360 | 0.4 | 0.58 (0.41–0.64) | 1.09 | .323 | .273 | .232 | .123 | <.001 |
+| qwen2.5-1.5b | .585 | 0 | 0.81 (0.34–0.87) | 1.29 | .535 | .535 | .415 | .354 | <.001 |
+| qwen2.5-3b | .640 | 0.2 | 1.07 (0.81–1.22) | 1.70 | .630 | .642 | .601 | .570 | .916 |
+| qwen2.5-7b | .768 | 0.7 | 1.42 (1.07–1.46) | 1.79 | .770 | .759 | .739 | .710 | .392 |
+| qwen2.5-14b | .841 | 0 | 1.15 (0.56–1.43) | 1.82 | .787 | .793 | .780 | .750 | .946 |
+| llama3.2-1b | .341 | 0 | 0.44 (0.16–0.68) | 1.17 | .276 | .284 | .230 | .160 | .038 |
+| llama3.2-3b | .549 | 0 | 0.72 (0.31–0.88) | 1.23 | .497 | .486 | .398 | .312 | <.001 |
+| llama3.1-8b | .628 | 0 | 0.69 (0.37–0.91) | 1.26 | .582 | .537 | .532 | .381 | .085 |
+| mistral-7b | .268 | 0.7 | 0.78 (0.14–1.05) | 1.39 | .264 | .238 | .241 | .191 | .946 |
+| gemma2-9b | .610 | 0.4 | 1.34 (0.60–1.41) | 1.65 | .591 | .616 | .607 | .595 | .946 |
+
+- **No sharp collapse just above 0.8.** No model has a significant drop from 0.6 to 0.8 after Holm correction.
+  From 0.6 to 1.0, four models drop significantly, and all are ≤3B.
+- **The lower bound of 0.2 is not supported.** T_lo = 0 for every model. Temperature gives no reliable pass@1 benefit,
+  and five models peak at greedy. T_u confidence intervals are wide because the curves are flat near the threshold.
+- **Pass@4 is where temperature pays off.** At T = 0.8 pass@4 exceeds greedy pass@1 by 6–18 points in every
+  model, with the largest gain on Qwen2.5-3B (+18.3). If several attempts can be tested, moderate T helps.
+- **The real collapse is later and is syntactic.** Pooled across models, syntax errors go from 2% at T = 0.8 to 17% at
+  1.2, 45% at 1.4 and 93% at 2.0.
+
+### 5.4 H4: model size
+![Useful ranges](figures/useful_ranges.png)
+
+| Task | Qwen 0.5B → 14B ΔT_u (95% CI) | Llama 1B → 8B ΔT_u (95% CI) | Spearman ρ, all 10 models (p) |
+|---|---|---|---|
+| Stories | +0.47 (0.43, 0.55) | −0.05 (−0.09, 0.00) | 0.61 (.060) |
+| QA | +0.87 (0.76, 1.11) | +0.27 (0.04, 0.48) | 0.90 (<.001) |
+| Code | +0.57 (0.00, 0.93) | +0.25 (−0.15, 0.59) | 0.64 (.048) |
+
+Larger models tolerate higher temperature in the Qwen family on all three tasks, though code only just clears zero.
+In the Llama family it holds for QA only. Story T_u is 1.01 at 1B, 1.00 at 3B and 0.96 at 8B. Spearman values within a
+ladder are based on 3–5 points and are not meaningful alone, which is why the bootstrap contrasts are shown.
+
+Code T50, which is less sensitive than T_u, also rises with size: 1.09 → 1.82 for Qwen and 1.17 → 1.26 for Llama.
+
+### 5.5 H5: family differences at matched scale
+![Family comparison](figures/family_matched_diversity.png)
+
+Shape gap = mean absolute gap between curves normalized to their own maxima. Floors for `sem_div`: seed 0.031,
+precision 0.026.
+
+| Pair (7–9B, all AWQ) | `sem_div` shape gap | Ts with CI excluding 0 (of 11) | Peak T |
+|---|---|---|---|
+| Qwen 7B vs Llama 8B | 0.220 | 9 | 1.4 vs 1.0 |
+| Llama 8B vs Mistral 7B | 0.205 | 10 | 1.0 vs 1.4 |
+| Llama 8B vs Gemma 9B | 0.118 | 8 | 1.0 vs 1.4 |
+| Qwen 7B vs Gemma 9B | 0.104 | 8 | 1.4 vs 1.4 |
+| Mistral 7B vs Gemma 9B | 0.098 | 9 | 1.4 vs 1.4 |
+| Qwen 7B vs Mistral 7B | 0.046 | 2 | 1.4 vs 1.4 |
+
+The 1–1.5B and 3B Qwen-vs-Llama pairs show the same result (gaps 0.225 and 0.224). In stories, family matters more
+than size in this sample: Llama-8B breaks at T_u = 0.96, close to Llama-1B at 1.01, while the other 7–9B models hold
+to 1.17–1.22. The study cannot explain why. Logit scale and vocabulary are candidates, but neither was measured.
+
+Each family is represented by one checkpoint per size, so "family" here cannot be separated from individual
+checkpoint or quantizer differences.
+
+### 5.6 Controls
+- **Seed:** two sampling-seed runs of Qwen2.5-0.5B differ at no temperature for any metric.
+- **Precision:** comparing Qwen2.5-7B bf16 with AWQ, curve shapes are at the seed floor (`sem_div` gap 0.026). Levels
+  do differ: greedy pass@1 is .829 vs .768, and greedy QA .573 vs .553. AWQ therefore does not explain the shape
+  differences, but absolute levels should not be compared across precisions.
+
+### 5.7 Failure modes (pooled over the 10 main models)
+
+| T | Code passes | Syntax errors | Truncated code | QA correct | QA rambling >8 words | Stories truncated | Story non-ASCII chars |
+|---|---|---|---|---|---|---|---|
+| 0.7 | 52% | 2% | 2% | 49% | 3% | 10% | 0.1% |
+| 1.0 | 48% | 4% | 2% | 47% | 2% | 14% | 0.5% |
+| 1.2 | 42% | 17% | 9% | 43% | 4% | 47% | 1.7% |
+| 1.4 | 32% | 45% | 35% | 37% | 12% | 70% | 5.5% |
+| 1.6 | 21% | 68% | 61% | 29% | 28% | 87% | 9.0% |
+| 2.0 | 5% | 93% | 89% | 11% | 58% | 92% | 11.4% |
+
+Above the cliff, models stop terminating, drift into other languages and emit code tokens in prose. A random high-T
+token that breaks the text seems to make further random tokens more likely, which would fit the abrupt shape, though
+this mechanism was not tested directly.
+
+## 6. Limitations
+
+- **One judge, compressed scale.** The Qwen3-8B judge rarely scores below 3, and it shares a lineage with the Qwen
+  subjects. A manual audit of 16 boundary stories agreed with the ≥5 threshold on 12 (75%), with the judge slightly
+  conservative. That audit was by the researcher-agent, on one model, and is small (`results/judge_audit.md`).
+- **The embedding metric is misleading on degenerate text,** as described in 5.1.
+- **Family and checkpoint are confounded,** and precision co-varies with size.
+- **Mistral's low code score** (.268) is below what its QA score would suggest. Restoring prompt imports raised it
+  only to .280, and failures are mostly real assertion errors, but the cause is unexplained. It may be specific to
+  this checkpoint or prompt, so its code level should not be taken as representative of Mistral-7B.
+- **Scope.** Pure temperature only, with no top-p or top-k. Tests cover short stories, one prompt per task, and 4
+  samples per cell. T = 0 uses one sample, and a single seed replicate is a thin noise floor. vLLM batch composition can
+  also change outputs slightly.
+- **Grid resolution.** Steps of 0.2 above T = 0.8 limit how precisely a cliff can be placed, and T_u depends on the
+  90% threshold choice. Bootstrap CIs on story T_u are narrow partly because of this interpolation.
+- **Multiple comparisons** were corrected within tests but not across the full set of hypotheses.
+- **Contamination:** TriviaQA, HumanEval and WritingPrompts are public and may be in training data. This matters
+  little for curve shapes, more for absolute levels.
+
+## 7. Conclusions & Next Steps
+
+Temperature's useful range is set by where each model breaks, and that varies widely. There is no universal threshold,
+and the common 0.7 default is safe rather than optimal. Single-attempt code and QA do best at low T, while pass@4 and
+coverage@4 benefit from moderate T.
+
+Suggested follow-ups:
+
+1. Measure logit scale and the top-token margin per model to test whether they predict the cliff location.
+2. Add more checkpoints per family to separate family from checkpoint.
+3. Run hosted frontier models through the same grid when an API key is available.
+4. Replace `sem_div` with a measure that does not collapse on degenerate text, and add human coherence ratings.
+5. Sample T at 0.05 steps around each model's cliff to test how abrupt it really is.
+
+## 8. Reproducibility
+
+- **Environment:** Python 3.12, vLLM 0.32.0, torch 2.13.0, transformers 5.19.0 (`results/environment.txt`, `uv.lock`).
+  Seeds are set in `src/worker.py` and `src/analyze.py`.
+- **Hardware:** RTX A6000 (48 GB), shared; ~3 h 15 min wall time. Runs used 4–22 GB slices and several parallel
+  workers, so timing does not generalize. No API cost.
+- **Check:** re-running `src/analyze.py` reproduced `curves.csv`, `h3_code.csv` and `h5_family.csv` byte-for-byte. Generation was not re-run in full; the seed replicate covers sampling variation for one model only.
+- **Run:** `./run_all.sh`. It needs an OpenAI-compatible Qwen3-8B server on port 8011.
+- **Outputs:** raw generations in `results/gens/`, scores in `results/scores/`, judgments in `results/judge/`, tables
+  in `results/analysis/`.
+
+## References
+
+Cited from memory; not verified in this session.
+
+- Chen, M. et al. (2021). Evaluating Large Language Models Trained on Code.
+- Holtzman, A. et al. (2020). The Curious Case of Neural Text Degeneration. ICLR.
+- Peeperkorn, M. et al. (2024). Is Temperature the Creativity Parameter of Large Language Models?
+- Renze, M. & Guven, E. (2024). The Effect of Sampling Temperature on Problem Solving in Large Language Models.
+
+Datasets: `euclaise/writingprompts`, `mandarjoshi/trivia_qa`, `openai/openai_humaneval`.
+
+
+════════════════════════════════════════════════════════════════════════════════
+                            RESEARCH PLAN
+════════════════════════════════════════════════════════════════════════════════
+
+# Planning: Temperature Calibration Gaps
+
+## Motivation & Novelty Assessment
+
+### Why This Research Matters
+Softmax temperature is the single most widely exposed decoding knob, and practitioners pick it by folklore
+("0.7 for chat, 0.2 for code, >1 for creativity"). If temperature's effect on *useful* diversity saturates while
+quality keeps falling, or if the useful range depends on model size/family, then a single default is miscalibrated
+for most deployments. A task × model × temperature map tells practitioners where the knob still does something.
+
+### Gap in Existing Work
+No resource-finder output was available for this workspace (no `literature_review.md`, `papers/`, `code/`), so the
+gap is stated from prior knowledge: Renze & Guven (2024, "The Effect of Sampling Temperature on Problem Solving in
+LLMs") found accuracy on MCQA flat over T∈[0,1] for several models; Peeperkorn et al. (2024, "Is Temperature the
+Creativity Parameter of LLMs?") found only weak novelty gains and coherence loss with temperature for one model on
+story writing; Holtzman et al. (2020) motivated nucleus sampling by degeneration at high T; Chen et al. (2021,
+Codex) reported best pass@1 at low T and best pass@100 at ~0.8. These studies each look at one task type, few models,
+and rarely above T=1.0, and none jointly measures diversity *and* quality curves across a size ladder and several
+families with matched prompts and decoding settings.
+
+### Our Novel Contribution
+One controlled grid: 10 open-weight instruct models (two size ladders: Qwen2.5 0.5–14B, Llama-3 1–8B; plus Mistral-7B
+and Gemma-2-9B at ~7–9B) × 11 temperatures (0–2.0, pure temperature sampling, top-p=1) × 3 task types (open-ended
+stories, closed-book factual QA, code with execution). For each cell we measure diversity (semantic + lexical) and
+quality (LLM-judge coherence + model-independent proxies, QA accuracy, pass@1), and derive per-model "useful
+temperature ranges" and curve-shape parameters to test each clause of the hypothesis.
+
+### Experiment Justification
+- Exp 1 (stories, WritingPrompts): tests the "diversity plateaus above 1.2 while coherence drops 20–40%" clause.
+- Exp 2 (TriviaQA closed-book): tests "above 0.7 accuracy degrades without meaningful diversity gains"; we measure
+  both per-sample accuracy and coverage@4 (the only diversity that is *useful* for factual QA).
+- Exp 3 (HumanEval with execution): tests "useful range 0.2–0.6, sharp collapse above 0.8".
+- Exp 4 (cross-model analysis on Exps 1–3): useful-range width vs. size (two ladders) → "smaller models have narrower
+  useful ranges"; curve-shape comparison at fixed scale (7–9B: Qwen/Llama/Mistral/Gemma; 1–1.5B and 3B: Qwen vs Llama)
+  → "curve shape differs across families". A Qwen2.5-7B AWQ run controls for the bf16/AWQ precision confound.
+
+## Research Question
+How do output diversity and output quality vary with softmax temperature (0–2.0) across open-ended generation,
+factual QA and code generation, and do the useful temperature ranges depend on model size and family?
+
+## Hypothesis Decomposition
+- H1 (open-ended): diversity gain per unit T is much smaller above T=1.2 than below it (plateau), while coherence at
+  T≥1.4 is 20–40% below its peak.
+- H2 (factual QA): accuracy at T∈{0.8..2.0} is significantly lower than at T≤0.7, while coverage@4 (any of 4 samples
+  correct) gains little over greedy accuracy.
+- H3 (code): pass@1 ≥90% of max only for T in ~[0.2,0.6] (actually: we test whether the useful range upper bound is
+  ≈0.6–0.8) and drops sharply (e.g. >30% relative) from T=0.6 to T=1.0.
+- H4 (size): the useful-range upper bound T_u (largest T with quality ≥ 90% of the model's best) increases with model
+  size within each family.
+- H5 (family): at matched scale, temperature–diversity curves (and T_u / T50) differ significantly across families.
+
+Independent variables: temperature, model (size, family), task. Dependent: diversity and quality metrics below.
+
+## Proposed Methodology
+
+### Approach
+Real model generations with vLLM 0.32 on local GPUs (no API key is available on this host; the hosted
+Qwen3-8B vLLM server on :8011 serves as the LLM judge). Pure temperature sampling (top_p=1, top_k off, min_p=0,
+repetition_penalty=1, `generation_config="vllm"` so checkpoint defaults like Qwen's top_p=0.8 are NOT applied).
+Temperatures {0, .2, .4, .6, .7, .8, 1.0, 1.2, 1.4, 1.6, 2.0}; 4 samples per (prompt, T>0), 1 greedy sample at T=0.
+
+### Experimental Steps
+1. `prep_data.py`: 100 WritingPrompts, 300 TriviaQA (rc.nocontext val), 164 HumanEval, seed 42.
+2. `worker.py`: generate for every model (stories ≤256 tokens, QA ≤24, code ≤448); store text, finish reason and the
+   raw (T=1) log-prob of each sampled token.
+3. `score.py`: QA accuracy (normalized alias match), HumanEval execution (sandboxed subprocess, 10 s timeout),
+   story diversity (mpnet embedding pairwise distance, distinct-2), lexical-validity and self-NLL proxies.
+4. `judge.py`: Qwen3-8B judges story coherence/fluency 1–9 (probability-weighted digit, validated logprobs) on 2 of
+   the 4 samples per (prompt, T).
+5. `analyze.py`: curves, useful ranges, bootstrap CIs, hypothesis tests, figures.
+
+### Baselines
+Greedy decoding (T=0) and the conventional T=0.7/1.0 defaults are the reference points; each model is its own
+baseline (quality is normalized to the model's best temperature).
+
+### Evaluation Metrics
+- Stories: semantic diversity = mean pairwise cosine distance of the 4 samples (all-mpnet-base-v2); lexical diversity
+  = distinct-2 over the pooled samples; coherence = judge score 1–9; proxies = fraction of tokens that are dictionary
+  words (vocabulary built from the WritingPrompts train split) and mean raw log-prob under the generating model.
+- QA: per-sample accuracy, coverage@4, number of distinct normalized answers / 4.
+- Code: pass@1 (mean over samples), pass@4, syntactic validity, distinct-program ratio.
+- Derived: T_u (largest T with quality ≥ 0.9×best, linear interpolation), T50 (quality = 0.5×best).
+
+### Statistical Analysis Plan
+Item-level bootstrap (2,000 resamples) for 95% CIs; paired sign-flip permutation tests on item-level differences
+between temperatures (α=0.05, Holm correction within each hypothesis family); Spearman correlation of T_u with
+log(params); family differences in T_u/T50 via bootstrap CIs of pairwise differences. Plateau test: ratio of
+diversity slope over [1.2,2.0] to slope over [0.2,1.2] with bootstrap CI.
+
+## Expected Outcomes
+Support: diversity slope ratio ≪1 above 1.2 with coherence drop 20–40%; QA accuracy drop above 0.7 with coverage@4
+≈ greedy accuracy; code T_u≈0.6–0.8; T_u increasing with size; non-overlapping CIs for family curve parameters.
+Refute: diversity keeps rising roughly linearly to T=2 (no plateau); coherence collapse much larger (>40%) or later;
+QA flat up to 1.0; code flat to 1.0; no size trend.
+
+## Timeline and Milestones
+Setup+data 30 min; generation ~3–4 h (shared GPUs, run largest models first on the free GPU); scoring and judging in
+parallel as model files complete; analysis 45 min; report 45 min.
+
+## Potential Challenges
+- GPU contention (shared host): hold GPU0 memory from the start, run models in one long-lived worker.
+- Judge bias (Qwen3 judging Qwen2.5 outputs) → judge-free proxies reported alongside.
+- Degenerate high-T outputs inflate lexical/semantic "diversity" → report diversity restricted to coherent samples.
+- Precision confound (AWQ for Mistral/Gemma) → Qwen2.5-7B AWQ vs bf16 control.
+
+## Success Criteria
+All 10 models × 11 temperatures × 3 tasks generated and scored; each sub-hypothesis gets a supported / refuted /
+partially-supported verdict with CIs.
+
+
+════════════════════════════════════════════════════════════════════════════════
+                          LITERATURE REVIEW
+════════════════════════════════════════════════════════════════════════════════
+
+No literature_review.md found
+
+════════════════════════════════════════════════════════════════════════════════
+                          PAPER REQUIREMENTS
+════════════════════════════════════════════════════════════════════════════════
+
+Generate a complete academic paper with the following structure:
+
+1. TITLE
+   - Clear, specific, informative
+   - Should convey main finding or contribution
+
+2. AUTHOR
+   - Use this exact author line in the \author{} block: NeuriCo
+
+3. ABSTRACT (150-250 words)
+   - Problem statement
+   - Approach
+   - Key results
+   - Significance
+
+4. INTRODUCTION
+   - Research problem and motivation
+   - Gap in existing work
+   - Our contribution (be specific)
+   - Paper organization
+
+5. RELATED WORK
+   - Organized by theme/approach
+   - Position our work relative to prior work
+   - Cite papers from literature review
+
+6. METHODOLOGY
+   - Clear description of approach
+   - Experimental setup
+   - Datasets used
+   - Evaluation metrics
+   - Baselines
+
+7. RESULTS
+   - Present results with tables and figures
+   - Statistical analysis
+   - Comparison to baselines
+   - Ablation studies (if applicable)
+
+8. DISCUSSION
+   - Interpretation of results
+   - Limitations
+   - Broader implications
+
+9. CONCLUSION
+   - Summary of contributions
+   - Key findings
+   - Future work
+
+10. REFERENCES
+   - BibTeX format
+   - All cited papers
+
+════════════════════════════════════════════════════════════════════════════════
+                          OUTPUT FORMAT
+════════════════════════════════════════════════════════════════════════════════
+
+Create a MODULAR LaTeX project with the following directory structure:
+
+paper_draft/
+├── main.tex              # Main file that imports all sections
+├── references.bib        # BibTeX references
+├── sections/
+│   ├── abstract.tex      # Abstract content
+│   ├── introduction.tex  # Introduction section
+│   ├── related_work.tex  # Related work section
+│   ├── methodology.tex   # Methodology section
+│   ├── results.tex       # Results section
+│   ├── discussion.tex    # Discussion section
+│   └── conclusion.tex    # Conclusion section
+├── figures/              # Directory for any generated figures
+├── tables/               # Directory for complex standalone tables
+└── appendix/             # Directory for appendix sections (if needed)
+
+INSTRUCTIONS:
+1. First, create the directory structure above (mkdir -p paper_draft/sections paper_draft/figures paper_draft/tables paper_draft/appendix)
+2. Write main.tex using the EXACT preamble for NEURIPS:
+
+   \documentclass{article}
+   \usepackage[final]{neurips_2025}  % NEURIPS style (neurips_2025.sty is in paper_draft/)
+   \usepackage[hidelinks]{hyperref}  % REQUIRED: clickable links
+   \usepackage{booktabs}  % REQUIRED: professional tables
+   \usepackage{graphicx}
+   \usepackage{amsmath,amssymb}
+
+   % Import command files
+   \input{commands/math}
+   \input{commands/general}
+   \input{commands/macros}
+
+   % Use this bibliography style:
+   \bibliographystyle{plainnat}
+
+   \author{NeuriCo}
+
+   - Use \input{sections/...} to include each section
+   - Use \bibliography{references} for references
+3. Write each section file with COMPLETE content (no placeholders)
+4. Each section file should include its \section{} command
+5. Write references.bib with all citations in BibTeX format
+6. After writing all files, compile the paper:
+   cd paper_draft && pdflatex -interaction=nonstopmode main.tex && bibtex main && pdflatex -interaction=nonstopmode main.tex && pdflatex -interaction=nonstopmode main.tex
+
+This modular structure allows humans to easily:
+- Edit individual sections without navigating a large file
+- Track changes per section
+- Reuse sections across different paper versions
+
+════════════════════════════════════════════════════════════════════════════════
+                          QUALITY REQUIREMENTS
+════════════════════════════════════════════════════════════════════════════════
+
+- Academic tone throughout
+- All claims must be supported by data from the experiment report
+- Proper citations using \cite{} commands
+- Clear figures and tables with proper captions
+- NO placeholder text - every section must have real content
+- The paper MUST compile without errors
+- If compilation fails, debug and fix the LaTeX errors
+
+════════════════════════════════════════════════════════════════════════════════
+                          LAB WRITING STYLE
+════════════════════════════════════════════════════════════════════════════════
+
+Follow these lab-specific conventions to match our paper style:
+
+1. LANGUAGE STYLE:
+   - Use active voice: "We propose", "We examine", "We focus on"
+   - Be direct and confident: "Our main question is...", "We hypothesize that..."
+   - State things clearly and simply - prefer plain language over jargon
+   - Use bold questions as paragraph organizers: {\bf what is X?}
+   - Include specific quantitative claims: "8.97% over baseline"
+   - Avoid fancy wording: "utilize" → "use", "facilitate" → "help"
+
+2. INTRODUCTION STRUCTURE:
+   - Engaging hook (get to the point quickly)
+   - Problem importance
+   - Gap identification
+   - Your approach with method figure reference
+   - Quantitative preview of results
+   - Contribution bullets (3-4 items, action verbs)
+
+3. CONTRIBUTION LISTS:
+   \begin{itemize}[leftmargin=*,itemsep=0pt,topsep=0pt]
+       \item We propose...
+       \item We conduct...
+       \item We complement...
+   \end{itemize}
+
+4. MODULAR COMMANDS STRUCTURE:
+   Command templates are pre-copied to paper_draft/commands/:
+   - math.tex: Math notation macros
+   - general.tex: Formatting macros
+   - macros.tex: Project-specific term definitions (customize this for your paper)
+
+   In main.tex, include:
+   \input{commands/math}
+   \input{commands/general}
+   \input{commands/macros}
+
+5. REFERENCE CONVENTIONS:
+   Use reference macros from math.tex:
+   - \figref{fig:name} for "figure 1" (lowercase, in-sentence)
+   - \Figref{fig:name} for "Figure 1" (capitalized, start of sentence)
+   - \secref{sec:name} for "section 2"
+
+6. TEXT FORMATTING:
+   - Use \para{Header text} for bold paragraph headers
+   - Define method/dataset names with \textsc and \xspace:
+     \newcommand{\methodname}{\textsc{MethodName}\xspace}
+
+7. TABLE FORMATTING:
+   - Use booktabs package (no vertical lines)
+   - Use \resizebox{\textwidth}{!}{...} for wide tables
+   - Use @{} to remove padding at table edges
+   - Use \cmidrule(lr){x-y} for sub-headers
+   - Use \textsc{} for dataset/method names in headers
+   - Bold best results with {\bf ...}
+
+8. FIGURE FORMATTING:
+   - Use 0.32\textwidth for 3-column subfigures
+   - Use 0.95\linewidth for full-width figures
+   - Use \input{figures/legend} for shared legends
+   - Write self-contained captions explaining key observations
+
+9. RESULTS PRESENTATION:
+   - Define \increase and \decrease for colored arrows (green up, red down)
+   - Bold best results in tables
+   - Report confidence intervals when available
+
+10. ALGORITHM STYLING:
+    - Use algpseudocode with [noend]
+    - Use \triangleright for comments
+
+11. HYPERLINKS (REQUIRED):
+    - Always use \usepackage[hidelinks]{hyperref} or with colored links
+    - All citations, section refs, figure refs, table refs must be clickable
+    - This is essential for reader navigation
+
+════════════════════════════════════════════════════════════════════════════════
+                          WORKFLOW: REVIEW AND REFLECT
+════════════════════════════════════════════════════════════════════════════════
+
+Before calling finish, you MUST complete these review steps:
+
+1. REVIEW RESOURCES (at the start):
+   - Read .claude/skills/paper-writer/SKILL.md for detailed guidance
+   - Study templates/paper_writing/lab_style_guide.md for style conventions
+   - Browse paper_examples/ for formatting and language patterns
+
+2. SELF-REFLECTION (before finishing):
+   After writing all sections, review your work against these criteria:
+
+   LANGUAGE CHECK:
+   - [ ] Is the writing clear and jargon-free?
+   - [ ] Are claims specific with quantitative support?
+   - [ ] Is active voice used throughout?
+
+   FORMATTING CHECK:
+   - [ ] Does main.tex include \input{commands/math}, \input{commands/general}, \input{commands/macros}?
+   - [ ] Is hyperref package included for clickable references?
+   - [ ] Do tables use booktabs (no vertical lines)?
+   - [ ] Are best results bolded in tables?
+   - [ ] Are figures/tables properly captioned?
+
+   STRUCTURE CHECK:
+   - [ ] Does introduction follow: hook → importance → gap → approach → preview → contributions?
+   - [ ] Are contribution bullets specific with action verbs?
+   - [ ] Does the paper compile without errors?
+
+3. FIX ISSUES:
+   - Address any issues found in the self-reflection
+   - Re-compile and verify the PDF looks correct
+
+Only after completing this review should you consider the paper finished.

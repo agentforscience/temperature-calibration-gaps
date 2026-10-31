@@ -1,0 +1,101 @@
+\section{Results}
+\label{sec:results}
+
+\Tabref{tab:verdicts} summarizes our verdicts, and \figref{fig:quality} shows the main pattern: quality holds near each model's peak and then falls, at a point that differs by model and task. \Figref{fig:curves} shows all raw curves. Quality falls most abruptly on stories and more gradually on QA.
+
+\input{tables/verdicts}
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=0.95\linewidth]{figures/quality_normalized.pdf}
+    \caption{Quality relative to each model's own peak, with darker lines for larger models in a family. The dashed line marks 90\%, which defines \Tu. On stories, most models go from near their peak to near zero within one or two grid steps, and the break ranges from $T \approx 0.8$ to 1.3 across models.}
+    \label{fig:quality}
+\end{figure}
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=0.95\linewidth]{figures/curves_all.png}
+    \caption{All metrics by temperature for all models and controls, with bands showing bootstrap 95\% CIs. Vertical dashed lines mark $T = 0.7$ and $1.2$. Dotted gray lines are the control runs, which closely follow the matching main runs in shape.}
+    \label{fig:curves}
+\end{figure}
+
+\subsection{H1: open-ended generation}
+\label{sec:h1}
+
+{\bf Does diversity plateau above 1.2?} In a sense it does, but ``plateau'' is the wrong shape. Semantic diversity rises, peaks at $T$ of 1.0--1.4, and then falls in 9 of 10 models (\tabref{tab:stories}). Qwen2.5-14B is the exception, with no slowdown between the two ranges (ratio 0.98, 95\% CI 0.69--1.30).
+
+\input{tables/stories}
+
+Most of this pattern comes from the measures, not the models. Distinct-2 flattens because it reaches its ceiling of 1.0. We read the fall in semantic diversity as an embedding artifact: degenerate text appears to embed similarly whatever it says, so a falling score does not mean outputs are less varied. We did not test this reading directly. Restricting to prompts where both judged samples are coherent supports it, because semantic diversity then rises at almost every temperature until too few coherent groups remain. For example, Gemma rises from 0.18 at $T = 0.2$ to 0.37 at $T = 1.4$. This is a selected subset, but it suggests that coherence loss, not saturation, ends useful diversity (\figref{fig:frontier}).
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=0.95\linewidth]{figures/story_frontier.pdf}
+    \caption{Diversity against coherence as $T$ rises, with hollow markers at $T = 1.2$. Coherence stays flat while diversity rises, then drops steeply. \figleft: semantic diversity turns back on itself past the cliff. \figright: distinct-2 presses against its ceiling.}
+    \label{fig:frontier}
+\end{figure}
+
+{\bf Does coherence drop 20--40\%?} This prediction is met only in passing. At $T = 1.4$ Qwen2.5-14B falls 19\%, close to the range, while the other nine models lose 48--62\%. These figures understate the damage: the judge rarely scores below 3, so the raw scale cannot fall more than about 64\%. The coherent rate shows it better, falling from about 1.0 to about 0 within one or two grid steps. For example, Mistral goes from 0.995 at $T = 1.2$ to 0.13 at $T = 1.4$.
+
+\subsection{H2: factual QA}
+\label{sec:h2}
+
+{\bf Does accuracy degrade above 0.7?} Yes, but the loss is small (\tabref{tab:qa}). Accuracy at $T$ of 0.8--1.0 is below that at $T \le 0.7$ in all 10 models and significantly so in 9, by 2.0--5.2 points. Qwen2.5-14B loses 0.7 points, which is not significant ($p = .217$). The decline stays gradual up to about $T = 1.2$ and steepens beyond it.
+
+{\bf Does the extra diversity help?} Below 0.7 it does: \coverfour at $T = 0.7$ is 2.7--9.7 points above greedy accuracy. Above 0.7 it does not. Moving from 0.7 to 1.0 changes coverage by $-$5.0 to +1.7 points, $-$0.8 on average, even though distinct answers keep rising. The extra diversity is mostly more wrong answers.
+
+\input{tables/qa}
+
+\subsection{H3: code generation}
+\label{sec:h3}
+
+{\bf Is there a sharp collapse just above 0.8?} No (\tabref{tab:code}). No model drops significantly from 0.6 to 0.8 after Holm correction. From 0.6 to 1.0 four models drop significantly, all at 3B or below, and the largest relative drop is 28\% (Qwen2.5-0.5B), under the 30\% we set as our example of a sharp drop in the plan.
+
+{\bf Is the useful range 0.2--0.6?} The lower bound is not supported: $\Tlo = 0$ for every model, and five models reach their best \passone at greedy. The upper bound varies from 0.44 to 1.42, and Qwen2.5-3B, -7B, -14B and Gemma all stay within 90\% of peak to at least 1.07.
+
+{\bf Where does temperature pay off?} It pays off when several attempts can be tested. At $T = 0.8$, \passfour exceeds greedy \passone by 6--18 points in every model, led by Qwen2.5-3B at +18.3. Across models, the best temperature for \passfour ranges from 0.4 to 1.4, and for five models it is 0.7 or 0.8.
+
+{\bf Where is the real collapse?} It comes later and is syntactic (\tabref{tab:failures}). Pooled across models, syntax errors go from 2\% at $T = 0.8$ to 17\% at 1.2, 45\% at 1.4, and 93\% at 2.0.
+
+\input{tables/code}
+
+\subsection{H4: model size}
+\label{sec:h4}
+
+Larger models tolerate higher temperature in the Qwen family on all three tasks, though the code contrast only just clears zero and is not monotonic, since Qwen2.5-14B has a lower \Tu than Qwen2.5-7B (\tabref{tab:size}, \figref{fig:ranges}). In the Llama family the trend holds on QA only. Story \Tu is 1.01 at 1B, 1.00 at 3B, and 0.96 at 8B. Code \Tfifty, which is less sensitive than \Tu, also rises with size: 1.09 to 1.82 for Qwen and 1.17 to 1.26 for Llama. Spearman values within a ladder rest on 3--5 points, so we rely on the bootstrap contrasts instead.
+
+\input{tables/size}
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=0.95\linewidth]{figures/useful_ranges.pdf}
+    \caption{Upper bound of the useful range for each model, ordered by size, with 95\% CIs. Story \Tu shows Llama holding near 1.0 at every size while Qwen climbs with size. Code CIs are wide, so single-model code comparisons are weak.}
+    \label{fig:ranges}
+\end{figure}
+
+\subsection{H5: family differences at matched scale}
+\label{sec:h5}
+
+Curve shapes differ across families, but not evenly (\tabref{tab:family}, \figref{fig:family}). Llama differs from the other three families by 4--7 times the seed floor, and it peaks at $T = 1.0$ rather than 1.4. The 1--1.5B and 3B Qwen-versus-Llama pairs show the same result, with gaps of 0.225 and 0.224. Gemma sits between the groups, and Qwen and Mistral are close to each other.
+
+\input{tables/family}
+
+On stories, family matters more than size in this sample. Llama-8B breaks at $\Tu = 0.96$, close to Llama-1B at 1.01, while the other 7--9B models hold to 1.17--1.22. The evidence is weaker on the other two tasks: the seed floors for QA accuracy (0.061) and \passone (0.051) are larger, and the largest 7--9B gaps reach only 0.115 and 0.213.
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=0.95\linewidth]{figures/family_matched_diversity.png}
+    \caption{Diversity curves for the four 7--9B AWQ models. On stories, Llama peaks and falls earlier than the others. On code, Llama and Mistral become diverse at low temperature, while Qwen and Gemma rise slowly, so the family order is not the same on each task.}
+    \label{fig:family}
+\end{figure}
+
+\subsection{Controls and failure modes}
+\label{sec:controls}
+
+\para{Seed.} Two sampling-seed runs of Qwen2.5-0.5B differ at no temperature on any metric.
+
+\para{Precision.} Comparing Qwen2.5-7B in bf16 and AWQ, curve shapes sit at the seed floor (semantic diversity gap 0.026). Levels do differ: greedy \passone is .829 versus .768, and greedy QA accuracy is .573 versus .553. AWQ therefore does not explain the shape differences above, but absolute levels should not be compared across precisions.
+
+\para{Failure modes.} Above the cliff, models stop ending their outputs, drift into other languages, and emit code tokens in prose (\tabref{tab:failures}). Story truncation at the token limit goes from 14\% at $T = 1.0$ to 70\% at $T = 1.4$.
+
+\input{tables/failures}

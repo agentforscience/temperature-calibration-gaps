@@ -1,0 +1,19 @@
+\begin{table}[t]
+    \centering
+    \small
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{@{}>{\raggedright\arraybackslash}p{5.2cm}>{\raggedright\arraybackslash}p{2.5cm}>{\raggedright\arraybackslash}p{6.6cm}@{}}
+        \toprule
+        \textbf{Claim} & \textbf{Verdict} & \textbf{Evidence} \\
+        \midrule
+        H1: open-ended diversity plateaus above 1.2, coherence drops 20--40\% & Partly supported & Measured diversity stops rising in 9/10 models but peaks at $T$ = 1.0--1.4 and then falls. Judge coherence falls 48--62\% at $T = 1.4$ in 9/10 models. \\
+        H2: above 0.7, QA accuracy degrades with no diversity gain & Mostly supported, small effect & Accuracy at $T$ = 0.8--1.0 is lower in all 10 models, significantly in 9, by at most 5.2 points. \coverfour stops improving above 0.7. \\
+        H3: code has useful range 0.2--0.6, collapse above 0.8 & Refuted as stated & No significant drop from 0.6 to 0.8. \Tlo = 0 everywhere. Four models reach \Tu of 1.07--1.42. \\
+        H4: smaller models have narrower useful ranges & Supported for Qwen, weak for Llama & Qwen: all three tasks. Llama: QA only. \\
+        H5: curve shape differs across families & Supported & Llama gaps are 4--7 times the seed floor. Qwen and Mistral are close to each other. \\
+        \bottomrule
+    \end{tabular}
+    }
+    \caption{Verdict on each clause of the hypothesis.}
+    \label{tab:verdicts}
+\end{table}

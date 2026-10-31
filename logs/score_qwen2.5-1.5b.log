@@ -1,0 +1,15 @@
+<unknown>:14: SyntaxWarning: invalid escape sequence '\?'
+<unknown>:16: SyntaxWarning: invalid escape sequence '\['
+<unknown>:24: SyntaxWarning: invalid escape sequence '\w'
+<unknown>:5: SyntaxWarning: invalid escape sequence '\w'
+<unknown>:17: SyntaxWarning: invalid escape sequence '\.'
+<unknown>:22: SyntaxWarning: invalid escape sequence '\W'
+<unknown>:4: SyntaxWarning: invalid escape sequence '\/'
+<unknown>:14: SyntaxWarning: invalid escape sequence '\.'
+<unknown>:28: SyntaxWarning: invalid escape sequence '\['
+<unknown>:28: SyntaxWarning: invalid escape sequence '\-'
+<unknown>:5: SyntaxWarning: invalid escape sequence '\K'
+qwen2.5-1.5b: executing 5391 unique programs (11244 cached)
+Could not reach the Hub (Cannot reach https://huggingface.co/api/models/sentence-transformers/all-mpnet-base-v2: offline mode is enabled. To disable it, please unset the `HF_HUB_OFFLINE` environment variable.). Using cached commit hash for 'sentence-transformers/all-mpnet-base-v2'.
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 6833.07it/s]
+qwen2.5-1.5b: scored 23124 samples, 6204 groups

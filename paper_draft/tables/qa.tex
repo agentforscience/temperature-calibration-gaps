@@ -1,0 +1,25 @@
+\begin{table}[t]
+    \centering
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{@{}lcccccccc@{}}
+        \toprule
+        & \multicolumn{3}{c}{\textbf{Mean accuracy}} & & & & \multicolumn{2}{c}{\textbf{\coverfour}} \\
+        \cmidrule(lr){2-4} \cmidrule(lr){8-9}
+        \textbf{Model} & Greedy & $T \le 0.7$ & $T$ 0.8--1.0 & \textbf{Diff.\ (pt)} & \textbf{Holm $p$} & $T \ge 1.2$ & $T$=0.7 & $T$=1.0 \\
+        \midrule
+        Qwen2.5-0.5B & .140 & .134 & .090 & $-$4.4 & $<$.001 & .030 & .217 & .167 \\
+        Qwen2.5-1.5B & .370 & .360 & .330 & $-$2.9 & .001 & .198 & .467 & .430 \\
+        Qwen2.5-3B & .410 & .393 & .367 & $-$2.6 & .001 & .234 & .447 & .463 \\
+        Qwen2.5-7B & .553 & .545 & .522 & $-$2.2 & .001 & .348 & .593 & .603 \\
+        Qwen2.5-14B & .627 & .621 & .615 & {\bf $-$0.7} & .217 & .512 & .653 & .660 \\
+        Llama-3.2-1B & .317 & .314 & .262 & $-$5.2 & $<$.001 & .104 & .410 & .383 \\
+        Llama-3.2-3B & .553 & .545 & .497 & $-$4.8 & $<$.001 & .246 & .613 & .623 \\
+        Llama-3.1-8B & .700 & .692 & .642 & $-$5.0 & $<$.001 & .346 & .763 & .760 \\
+        Mistral-7B & .723 & .713 & .693 & $-$2.0 & $<$.001 & {\bf .548} & .753 & .757 \\
+        Gemma-2-9B & {\bf .753} & {\bf .744} & {\bf .719} & $-$2.5 & .001 & .435 & {\bf .810} & {\bf .800} \\
+        \bottomrule
+    \end{tabular}
+    }
+    \caption{Factual QA. The difference compares $T$ of 0.8--1.0 with $T \le 0.7$. Accuracy falls in every model and significantly in nine, but only by a few points. \coverfour shows no consistent gain from 0.7 to 1.0. $p$-values use 10,000 permutations, so ``$<$.001'' is near the resolution limit. Best values are in \textbf{bold}.}
+    \label{tab:qa}
+\end{table}
